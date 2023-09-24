@@ -1,4 +1,12 @@
-import { Text, Pressable, ActivityIndicator, Platform } from "react-native";
+import {
+  Text,
+  Pressable,
+  ActivityIndicator,
+  Platform,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
 import React from "react";
 
 interface Props {
@@ -6,6 +14,8 @@ interface Props {
   action: () => void;
   loading?: boolean;
   disabled?: boolean;
+  styles?: StyleProp<ViewStyle>;
+  textStyles?: StyleProp<TextStyle>;
 }
 
 const Button: React.FC<Props> = ({
@@ -13,6 +23,8 @@ const Button: React.FC<Props> = ({
   action,
   loading = false,
   disabled = false,
+  styles,
+  textStyles,
 }) => {
   return (
     <Pressable
@@ -24,6 +36,7 @@ const Button: React.FC<Props> = ({
           paddingVertical: 14,
           backgroundColor: pressed ? "#CACOFF" : "#8863F2",
         },
+        styles,
       ]}
       onPress={action}
       disabled={disabled}
@@ -39,9 +52,12 @@ const Button: React.FC<Props> = ({
       ) : (
         <Text
           className="text-lg text-white font-normal"
-          style={{
-            fontFamily: "Nunito_Meduim",
-          }}
+          style={[
+            {
+              fontFamily: "Nunito_Meduim",
+            },
+            textStyles,
+          ]}
         >
           {text}
         </Text>

@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import React from "react";
-import { globalStyles } from "../../constants/Colors";
+import { globalStyles } from "../../constants/styles";
 import { ScrollView } from "react-native-gesture-handler";
 import { useRouter } from "expo-router";
 import IconTextBox from "../Common/IconTextBox";

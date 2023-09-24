@@ -7,7 +7,7 @@ import Button from "../components/Common/Button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/Common/Loader";
 import { Redirect, useRouter } from "expo-router";
-import { globalStyles } from "../constants/Colors";
+import { globalStyles } from "../constants/styles";
 
 const Onboarding = () => {
   const [loading, setLoading] = useState(true);

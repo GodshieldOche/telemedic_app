@@ -2,7 +2,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Redirect, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
 
-import Colors from "../../constants/Colors";
+import Colors from "../../constants/styles";
 import { useEffect, useState } from "react";
 import { getSecureValueFor } from "../../utils/helper";
 import Loader from "../../components/Common/Loader";

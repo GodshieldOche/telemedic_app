@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { ErrorMessage, Field } from "formik";
-import { Text, TextInputIOSProps, View } from "react-native";
+import { Platform, Text, TextInputIOSProps, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { globalStyles } from "../../constants/Colors";
+import { globalStyles } from "../../constants/styles";
 import { Feather } from "@expo/vector-icons";
+import { TextInputProps } from "react-native";
 
 interface Props {
   label: string;
@@ -11,6 +11,7 @@ interface Props {
   value: string;
   placeholder: string;
   type: TextInputIOSProps["textContentType"];
+  mode?: TextInputProps["inputMode"];
   handleChange: any;
   errors: any;
   touched: any;
@@ -33,6 +34,7 @@ const Input: React.FC<Props> = ({
   touched,
   autoCapitalize = "none",
   secureTextEntry = false,
+  mode = "text",
 }) => {
   const [shouldHide, setSecureTextEntry] = useState<boolean>(secureTextEntry);
 
@@ -41,9 +43,9 @@ const Input: React.FC<Props> = ({
   }, []);
 
   return (
-    <View className="w-full flex gap-y-2">
+    <View className="w-full  flex space-y-2">
       <Text
-        className="text-lg text-secondaryBlack pl-2"
+        className="text-base text-secondaryBlack pl-2"
         style={globalStyles.meduim_text}
       >
         {label}
@@ -57,10 +59,11 @@ const Input: React.FC<Props> = ({
             {
               borderWidth: 1,
               borderColor: "#DADEE3",
-              padding: 16,
-              fontSize: 18,
+              padding: Platform.OS === "ios" ? 16 : 14,
+              fontSize: 16,
               borderRadius: 8,
               color: "#2B2B2B",
+              backgroundColor: "#fff",
             },
           ]}
           onChangeText={handleChange(name)}
@@ -68,24 +71,25 @@ const Input: React.FC<Props> = ({
           value={value}
           autoCapitalize={autoCapitalize}
           textContentType={type}
+          inputMode={mode}
           secureTextEntry={shouldHide}
         />
-        {["password", "confirmPassword", "password_confirmation"].includes(
+        {["password", "confirm_password", "password_confirmation"].includes(
           name
         ) && (
           <View className="absolute h-full top-0 bottom-0 right-4 flex flex-col justify-center">
             {shouldHide ? (
               <Feather
                 name="eye"
-                size={18}
-                color="#8863F2"
+                size={16}
+                color="#858C94"
                 onPress={() => setSecureTextEntry(false)}
               />
             ) : (
               <Feather
                 name="eye-off"
-                size={18}
-                color="#858C94"
+                size={16}
+                color="#8863F2"
                 onPress={() => setSecureTextEntry(true)}
               />
             )}

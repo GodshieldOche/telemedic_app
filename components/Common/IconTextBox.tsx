@@ -1,6 +1,6 @@
 import { View, Text, Pressable } from "react-native";
 import React from "react";
-import { globalStyles } from "../../constants/Colors";
+import { globalStyles } from "../../constants/styles";
 import { Ionicons } from "@expo/vector-icons";
 
 interface Props {

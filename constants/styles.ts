@@ -37,4 +37,22 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "400",
     fontFamily: "Nunito",
   },
+  codeFiledRoot: { marginTop: 20 },
+  cell: {
+    width: 56,
+    height: 56,
+    lineHeight: 54,
+    fontSize: 20,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: "#E4E5E7",
+    textAlign: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#2B2B2B",
+  },
+  focusCell: {
+    borderColor: "#8863F2",
+  },
 });

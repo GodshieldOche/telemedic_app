@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import React from "react";
-import { globalStyles } from "../../constants/Colors";
+import { globalStyles } from "../../constants/styles";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Input from "../../components/Formik/Input";
@@ -8,7 +8,7 @@ import Button from "../../components/Common/Button";
 import { ScrollView } from "react-native-gesture-handler";
 import useAppDispatch from "../../hooks/useDispatch";
 import { postSignIn } from "../../redux/slices/user/signin";
-import { errorAlert } from "../../components/Common/Alerts";
+import { messageAlert } from "../../components/Common/Alerts";
 import { useRouter } from "expo-router";
 
 const signinSchema = yup.object().shape({
@@ -52,7 +52,7 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
               const res = await dispatch(postSignIn(values));
               if (res.error) {
                 setSubmitting(false);
-                errorAlert(
+                messageAlert(
                   "Error",
                   (res?.payload && res?.payload[0]?.error) ||
                     "Something went wrong"
@@ -97,6 +97,7 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
                     handleBlur={handleBlur}
                     placeholder="Enter email address"
                     type="emailAddress"
+                    mode="email"
                   />
                   <Input
                     label="Password"

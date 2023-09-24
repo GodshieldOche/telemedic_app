@@ -1,0 +1,316 @@
+import { View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Formik } from "formik";
+import * as yup from "yup";
+import Input from "../../Formik/Input";
+import Select from "../../Formik/Picker";
+import { Path, Svg } from "react-native-svg";
+import { Country, RegisterData } from "../../../utils/interface";
+import IconButton from "../../Common/IconButton";
+import DateTime from "../../Formik/Date";
+import useAppDispatch, { useAppSelector } from "../../../hooks/useDispatch";
+import { getStates } from "../../../redux/slices/app/state";
+import { getCities, resetCities } from "../../../redux/slices/app/cities";
+import { messageAlert } from "../../Common/Alerts";
+import { useRouter } from "expo-router";
+
+const signupSchema = yup.object().shape({
+  gender: yup.string().required("This field is required"),
+  dob: yup.date().required("This field is required"),
+  postal_code: yup.string().required("This field is required"),
+  street_line_one: yup.string().required("This field is required"),
+  country_id: yup.string().required("This field is required"),
+  state_id: yup.string().required("This field is required"),
+  city_id: yup.string().required("This field is required"),
+});
+
+interface signupValues {
+  gender: string;
+  dob: Date | undefined;
+  postal_code: string;
+  street_line_one: string;
+  country_id: string | number;
+  state_id: string | number;
+  city_id: string | number;
+}
+
+const ProfileInfo: React.FC<{
+  countries: Country[];
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setData: React.Dispatch<React.SetStateAction<RegisterData>>;
+  data: RegisterData;
+  handleRegister: (body: RegisterData) => Promise<any>;
+}> = ({ countries, setPage, data, handleRegister, setData }) => {
+  const {
+    gender,
+    dob,
+    address: { postal_code, street_line_one, country_id, state_id, city_id },
+  } = data;
+
+  const initialValues: signupValues = {
+    gender,
+    dob,
+    postal_code,
+    street_line_one,
+    country_id,
+    state_id,
+    city_id,
+  };
+
+  const [count, setCount] = useState(null);
+  const [stat, setStat] = useState(null);
+
+  const { data: states } = useAppSelector((state) => state.state);
+  const { data: cities } = useAppSelector((state) => state.city);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!count) {
+      return;
+    }
+    dispatch(getStates(count));
+    dispatch(resetCities());
+  }, [count]);
+
+  useEffect(() => {
+    if (!stat) {
+      return;
+    }
+    dispatch(getCities(stat));
+  }, [stat]);
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={async (
+        {
+          dob,
+          gender,
+          city_id,
+          state_id,
+          country_id,
+          postal_code,
+          street_line_one,
+        },
+        { setSubmitting }
+      ) => {
+        setData(
+          (prev) =>
+            (prev = {
+              ...prev,
+              dob,
+              gender,
+              address: {
+                country_id,
+                state_id,
+                city_id,
+                postal_code,
+                street_line_one,
+              },
+            })
+        );
+        const body: RegisterData = {
+          ...data,
+          dob,
+          gender,
+          address: {
+            city_id: Number(city_id),
+            state_id: Number(state_id),
+            country_id: Number(country_id),
+            postal_code,
+            street_line_one,
+          },
+        };
+        const res = await handleRegister(body);
+        if (res.error) {
+          setSubmitting(false);
+          messageAlert(
+            "Error",
+            (res?.payload && res?.payload[0]?.error) || "Something went wrong"
+          );
+          return;
+        }
+        setSubmitting(false);
+        router.push("/(auth)/verify_user");
+      }}
+      validationSchema={signupSchema}
+    >
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        errors,
+        touched,
+        values,
+        setFieldValue,
+        isSubmitting,
+      }) => (
+        <View className="flex-1 w-full space-y-8 ">
+          <View
+            className="flex-1 h-full w-full bg-primaryGray px-4 py-5 rounded-lg"
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              rowGap: 32,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "column",
+                rowGap: 16,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  columnGap: 8,
+                  alignItems: "flex-start",
+                }}
+              >
+                <View className="w-[50%]">
+                  <DateTime
+                    label="Date of birth"
+                    name="dob"
+                    value={values.dob}
+                    errors={errors.dob}
+                    touched={touched.dob}
+                    handleChange={setFieldValue}
+                    handleBlur={handleBlur}
+                    placeholder="00/00/0000"
+                  />
+                </View>
+                <View className="w-[50%]">
+                  <Select
+                    label="Gender"
+                    name="gender"
+                    value={values.gender}
+                    errors={errors.gender}
+                    touched={touched.gender}
+                    handleChange={setFieldValue}
+                    handleBlur={handleBlur}
+                    placeholder="Gender"
+                    items={[
+                      { label: "Male", value: "male" },
+                      { label: "Female", value: "female" },
+                    ]}
+                    useWheel={true}
+                    showSearch={false}
+                  />
+                </View>
+              </View>
+              <Select
+                label="Country"
+                name="country_id"
+                value={values.country_id}
+                errors={errors.country_id}
+                touched={touched.country_id}
+                handleChange={setFieldValue}
+                handleBlur={handleBlur}
+                placeholder="Country"
+                items={countries?.map((country) => ({
+                  label: `${country.emoji} ${country.name}`,
+                  value: country.value,
+                }))}
+                setValue={setCount}
+              />
+              <Select
+                label="State "
+                name="state_id"
+                value={values.state_id}
+                errors={errors.state_id}
+                touched={touched.state_id}
+                handleChange={setFieldValue}
+                handleBlur={handleBlur}
+                placeholder="State"
+                items={states.map((state) => ({
+                  label: state.name,
+                  value: state.value,
+                }))}
+                setValue={setStat}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  columnGap: 8,
+                  alignItems: "flex-start",
+                }}
+              >
+                <View className="w-[50%]">
+                  <Select
+                    label="City"
+                    name="city_id"
+                    value={values.city_id}
+                    errors={errors.city_id}
+                    touched={touched.city_id}
+                    handleChange={setFieldValue}
+                    handleBlur={handleBlur}
+                    placeholder="City"
+                    items={cities?.map((city) => ({
+                      label: city.name,
+                      value: city.value,
+                    }))}
+                  />
+                </View>
+                <View className="w-[50%]">
+                  <Input
+                    label="Postal Code"
+                    name="postal_code"
+                    value={values.postal_code}
+                    errors={errors.postal_code}
+                    touched={touched.postal_code}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                    placeholder="Postal Code"
+                    type="postalCode"
+                  />
+                </View>
+              </View>
+
+              <Input
+                label="Address"
+                name="street_line_one"
+                value={values.street_line_one}
+                errors={errors.street_line_one}
+                touched={touched.street_line_one}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
+                placeholder="Address"
+                type="fullStreetAddress"
+              />
+            </View>
+          </View>
+          <View className="flex-1 w-full flex-row items-center justify-between">
+            <IconButton
+              SVG={
+                <Svg width="28" height="28" color="#fff" viewBox="0 0 24 24">
+                  <Path
+                    fill="currentColor"
+                    d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42a.996.996 0 0 0-1.41 0l-6.59 6.59a.996.996 0 0 0 0 1.41l6.59 6.59a.996.996 0 1 0 1.41-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"
+                  />
+                </Svg>
+              }
+              action={() => setPage(0)}
+            />
+            <IconButton
+              loading={isSubmitting}
+              SVG={
+                <Svg width="28" height="28" color="#fff" viewBox="0 0 24 24">
+                  <Path
+                    fill="currentColor"
+                    d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42c.39.39 1.02.39 1.41 0l6.59-6.59a.996.996 0 0 0 0-1.41l-6.58-6.6a.996.996 0 1 0-1.41 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1z"
+                  />
+                </Svg>
+              }
+              action={handleSubmit}
+            />
+          </View>
+        </View>
+      )}
+    </Formik>
+  );
+};
+
+export default ProfileInfo;
