@@ -18,7 +18,10 @@ const RegSuccess: React.FC<Props> = ({ title, description, action }) => {
         <Text className="text-2xl" style={[globalStyles.semibold_text]}>
           {title}
         </Text>
-        <Text className="text-base" style={[globalStyles.regular_text]}>
+        <Text
+          className="text-base text-center"
+          style={[globalStyles.regular_text]}
+        >
           {description}
         </Text>
       </View>

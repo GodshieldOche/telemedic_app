@@ -66,7 +66,7 @@ const Input: React.FC<Props> = ({
               backgroundColor: "#fff",
             },
           ]}
-          onChangeText={handleChange(name)}
+          onChangeText={(e) => handleChange(name, e)}
           onBlur={handleBlur(name)}
           value={value}
           autoCapitalize={autoCapitalize}

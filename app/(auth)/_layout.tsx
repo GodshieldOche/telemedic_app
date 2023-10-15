@@ -2,19 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Redirect, Stack } from "expo-router";
 import { getSecureValueFor } from "../../utils/helper";
 import Loader from "../../components/Common/Loader";
-
-const options: any = {
-  headerTitleAlign: "center",
-  headerShadowVisible: false,
-  headerTitleStyle: {
-    fontFamily: "Nunito_Semibold",
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#2B2B2B",
-  },
-  headerTintColor: "#2B2B2B",
-  headerBackTitleVisible: false,
-};
+import { options } from "../../constants/styles";
 
 const AuthLayout = () => {
   const [loading, setLoading] = useState(true);
@@ -37,15 +25,21 @@ const AuthLayout = () => {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="user" options={{ headerShown: false }} />
+      <Stack.Screen name="facility" options={{ headerShown: false }} />
+      <Stack.Screen name="practitioner" options={{ headerShown: false }} />
       <Stack.Screen
-        name="register_user"
-        options={{ ...options, title: "Create Account" }}
+        name="providers_options"
+        options={{ ...options, title: "Healthcare Providers" }}
       />
       <Stack.Screen
-        name="verify_user"
-        options={{ ...options, title: "Verification" }}
+        name="terms_and_condtions"
+        options={{
+          presentation: "modal",
+          ...options,
+          title: "Terms & Conditions",
+        }}
       />
-      <Stack.Screen name="success_user" options={{ headerShown: false }} />
     </Stack>
   );
 };

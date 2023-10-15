@@ -1,65 +1,31 @@
 import { View, Text, ActivityIndicator } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { VerifcationSvg } from "../../components/Common/svgs";
 import { globalStyles } from "../../constants/styles";
 import CodeFieldComp from "../../components/Common/CodeField";
 import Button from "../../components/Common/Button";
 import { Pressable } from "react-native";
-import { useRouter } from "expo-router";
-import useAppDispatch, { useAppSelector } from "../../hooks/useDispatch";
-import Loader from "../../components/Common/Loader";
-import {
-  postResendOTP,
-  postVerfifyAccount,
-} from "../../redux/slices/user/signup";
-import { messageAlert } from "../../components/Common/Alerts";
 
-const VerifyUserAccount = () => {
-  const [value, setValue] = useState("");
-  const router = useRouter();
-  const [isLoading, setLoading] = useState(true);
-  const { email, loading, resending } = useAppSelector(
-    (state) => state.userRegister
-  );
+interface Props {
+  email: string;
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  handleVerify: () => Promise<void>;
+  handleResendOTP: () => Promise<void>;
+  loading: boolean;
+  resending: boolean;
+}
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!email) {
-      router.replace("/(auth)/register_user");
-    }
-    setLoading(false);
-  }, [email]);
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  const handleVerify = async () => {
-    const res = await dispatch(postVerfifyAccount({ email, otp: value }));
-    if (res.error) {
-      messageAlert(
-        "Error",
-        (res?.payload && res?.payload[0]?.error) || "Something went wrong"
-      );
-      return;
-    }
-    router.push("/(auth)/success_user");
-  };
-
-  const handleResendOTP = async () => {
-    const res = await dispatch(postResendOTP({ email }));
-    if (res.error) {
-      messageAlert(
-        "Error",
-        (res?.payload && res?.payload[0]?.error) || "Something went wrong"
-      );
-      return;
-    }
-    messageAlert("Success", "OTP resent successfully");
-  };
-
+const EmailVerification: React.FC<Props> = ({
+  email,
+  value,
+  setValue,
+  loading,
+  handleVerify,
+  handleResendOTP,
+  resending,
+}) => {
   return (
     <ScrollView className="bg-white  flex-1">
       <View className="py-12 px-4 space-y-14">
@@ -112,4 +78,4 @@ const VerifyUserAccount = () => {
   );
 };
 
-export default VerifyUserAccount;
+export default EmailVerification;

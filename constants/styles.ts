@@ -56,3 +56,16 @@ export const globalStyles = StyleSheet.create({
     borderColor: "#8863F2",
   },
 });
+
+export const options: any = {
+  headerTitleAlign: "center",
+  headerShadowVisible: false,
+  headerTitleStyle: {
+    fontFamily: "Nunito_Semibold",
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#2B2B2B",
+  },
+  headerTintColor: "#2B2B2B",
+  headerBackTitleVisible: false,
+};

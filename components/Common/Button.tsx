@@ -8,6 +8,7 @@ import {
   TextStyle,
 } from "react-native";
 import React from "react";
+import { globalStyles } from "../../constants/styles";
 
 interface Props {
   text: string;
@@ -34,7 +35,7 @@ const Button: React.FC<Props> = ({
           alignItems: "center",
           borderRadius: 8,
           paddingVertical: 14,
-          backgroundColor: pressed ? "#CACOFF" : "#8863F2",
+          backgroundColor: disabled ? "#E5DFFF" : "#8863F2",
         },
         styles,
       ]}
@@ -52,12 +53,7 @@ const Button: React.FC<Props> = ({
       ) : (
         <Text
           className="text-lg text-white font-normal"
-          style={[
-            {
-              fontFamily: "Nunito_Meduim",
-            },
-            textStyles,
-          ]}
+          style={[globalStyles.semibold_text, textStyles]}
         >
           {text}
         </Text>

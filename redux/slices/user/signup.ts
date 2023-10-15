@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RegisterData } from "../../../utils/interface";
 import { saveSecure } from "../../../utils/helper";
@@ -12,6 +12,7 @@ export interface signupState {
   loading: boolean;
   resending: boolean;
   email: string;
+  data: RegisterData;
   error: object | null;
 }
 
@@ -76,7 +77,7 @@ export const postVerfifyAccount: any = createAsyncThunk(
       );
       const token = data.data.token;
       await saveSecure("userToken", token);
-      dispatch(reset());
+      dispatch(resetRegisterData());
       return data.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -88,6 +89,23 @@ export const postVerfifyAccount: any = createAsyncThunk(
 const initialState: signupState = {
   loading: true,
   resending: false,
+  data: {
+    email: "",
+    password: "",
+    first_name: "",
+    last_name: "",
+    gender: "",
+    dob: undefined,
+    phone_code: "",
+    phone_no: "",
+    address: {
+      country_id: "",
+      state_id: "",
+      city_id: "",
+      postal_code: "",
+      street_line_one: "",
+    },
+  },
   email: "",
   error: null,
 };
@@ -96,8 +114,20 @@ export const signupSlice = createSlice({
   name: "signup",
   initialState,
   reducers: {
-    reset: (state) => {
+    resetRegisterData: (state) => {
       return (state = initialState);
+    },
+    setUserRegisterData: (
+      state: signupState,
+      action: PayloadAction<{ data: any }>
+    ) => {
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ...action.payload.data,
+        },
+      };
     },
   },
   extraReducers: (builder) => {
@@ -137,6 +167,6 @@ export const signupSlice = createSlice({
 });
 
 // // Other code such as selectors can use the imported `RootState` type
-export const { reset } = signupSlice.actions;
+export const { resetRegisterData, setUserRegisterData } = signupSlice.actions;
 
 export default signupSlice.reducer;

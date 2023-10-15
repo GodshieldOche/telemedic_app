@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -13,6 +13,9 @@ import { getStates } from "../../../redux/slices/app/state";
 import { getCities, resetCities } from "../../../redux/slices/app/cities";
 import { messageAlert } from "../../Common/Alerts";
 import { useRouter } from "expo-router";
+import { setUserRegisterData } from "../../../redux/slices/user/signup";
+import CheckBox from "../../Formik/Checkbox";
+import { globalStyles } from "../../../constants/styles";
 
 const signupSchema = yup.object().shape({
   gender: yup.string().required("This field is required"),
@@ -22,6 +25,10 @@ const signupSchema = yup.object().shape({
   country_id: yup.string().required("This field is required"),
   state_id: yup.string().required("This field is required"),
   city_id: yup.string().required("This field is required"),
+  read: yup
+    .boolean()
+    .isTrue("You must read and acknowledge the terms and conditions")
+    .required("You must read and acknowledge the terms and conditions"),
 });
 
 interface signupValues {
@@ -32,15 +39,15 @@ interface signupValues {
   country_id: string | number;
   state_id: string | number;
   city_id: string | number;
+  read: boolean;
 }
 
 const ProfileInfo: React.FC<{
   countries: Country[];
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  setData: React.Dispatch<React.SetStateAction<RegisterData>>;
-  data: RegisterData;
   handleRegister: (body: RegisterData) => Promise<any>;
-}> = ({ countries, setPage, data, handleRegister, setData }) => {
+}> = ({ countries, handleRegister }) => {
+  const { data } = useAppSelector((state) => state.userRegister);
+
   const {
     gender,
     dob,
@@ -49,12 +56,13 @@ const ProfileInfo: React.FC<{
 
   const initialValues: signupValues = {
     gender,
-    dob,
+    dob: dob ? new Date(dob) : dob,
     postal_code,
     street_line_one,
     country_id,
     state_id,
     city_id,
+    read: false,
   };
 
   const [count, setCount] = useState(null);
@@ -95,24 +103,22 @@ const ProfileInfo: React.FC<{
         },
         { setSubmitting }
       ) => {
-        setData(
-          (prev) =>
-            (prev = {
-              ...prev,
-              dob,
-              gender,
-              address: {
-                country_id,
-                state_id,
-                city_id,
-                postal_code,
-                street_line_one,
-              },
-            })
-        );
+        const values = {
+          dob: dob?.toISOString().toString(),
+          gender,
+          address: {
+            country_id,
+            state_id,
+            city_id,
+            postal_code,
+            street_line_one,
+          },
+        };
+        dispatch(setUserRegisterData({ data: values }));
+
         const body: RegisterData = {
           ...data,
-          dob,
+          dob: dob?.toISOString().toString(),
           gender,
           address: {
             city_id: Number(city_id),
@@ -132,12 +138,11 @@ const ProfileInfo: React.FC<{
           return;
         }
         setSubmitting(false);
-        router.push("/(auth)/verify_user");
+        router.push("/(auth)/user/verify");
       }}
       validationSchema={signupSchema}
     >
       {({
-        handleChange,
         handleBlur,
         handleSubmit,
         errors,
@@ -146,7 +151,12 @@ const ProfileInfo: React.FC<{
         setFieldValue,
         isSubmitting,
       }) => (
-        <View className="flex-1 w-full space-y-8 ">
+        <View
+          className="flex-1 w-full "
+          style={{
+            rowGap: 32,
+          }}
+        >
           <View
             className="flex-1 h-full w-full bg-primaryGray px-4 py-5 rounded-lg"
             style={{
@@ -190,8 +200,9 @@ const ProfileInfo: React.FC<{
                     touched={touched.gender}
                     handleChange={setFieldValue}
                     handleBlur={handleBlur}
-                    placeholder="Gender"
+                    placeholder="Select Gender"
                     items={[
+                      { label: "", value: "" },
                       { label: "Male", value: "male" },
                       { label: "Female", value: "female" },
                     ]}
@@ -261,7 +272,7 @@ const ProfileInfo: React.FC<{
                     value={values.postal_code}
                     errors={errors.postal_code}
                     touched={touched.postal_code}
-                    handleChange={handleChange}
+                    handleChange={setFieldValue}
                     handleBlur={handleBlur}
                     placeholder="Postal Code"
                     type="postalCode"
@@ -275,25 +286,37 @@ const ProfileInfo: React.FC<{
                 value={values.street_line_one}
                 errors={errors.street_line_one}
                 touched={touched.street_line_one}
-                handleChange={handleChange}
+                handleChange={setFieldValue}
                 handleBlur={handleBlur}
                 placeholder="Address"
                 type="fullStreetAddress"
               />
             </View>
           </View>
-          <View className="flex-1 w-full flex-row items-center justify-between">
-            <IconButton
-              SVG={
-                <Svg width="28" height="28" color="#fff" viewBox="0 0 24 24">
-                  <Path
-                    fill="currentColor"
-                    d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42a.996.996 0 0 0-1.41 0l-6.59 6.59a.996.996 0 0 0 0 1.41l6.59 6.59a.996.996 0 1 0 1.41-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"
-                  />
-                </Svg>
-              }
-              action={() => setPage(0)}
-            />
+          <CheckBox
+            name="read"
+            label={
+              <View className="w-full flex-row items-center ">
+                <Text style={[globalStyles.regular_text, { fontSize: 16 }]}>
+                  I have read and accepted{" "}
+                </Text>
+                <Pressable onPress={() => ""}>
+                  <Text
+                    className="text-primaryOne "
+                    style={[globalStyles.bold_text, { fontSize: 16 }]}
+                  >
+                    the terms & conditions
+                  </Text>
+                </Pressable>
+              </View>
+            }
+            errors={errors.read}
+            touched={touched.read}
+            value={values.read}
+            handleChange={setFieldValue}
+            handleBlur={handleBlur}
+          />
+          <View className="flex-1 w-full flex-row items-center justify-end">
             <IconButton
               loading={isSubmitting}
               SVG={

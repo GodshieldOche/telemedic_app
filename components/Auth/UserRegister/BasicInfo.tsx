@@ -5,8 +5,11 @@ import * as yup from "yup";
 import Input from "../../Formik/Input";
 import Select from "../../Formik/Picker";
 import { Path, Svg } from "react-native-svg";
-import { Country, RegisterData } from "../../../utils/interface";
+import { Country } from "../../../utils/interface";
 import IconButton from "../../Common/IconButton";
+import useAppDispatch, { useAppSelector } from "../../../hooks/useDispatch";
+import { setUserRegisterData } from "../../../redux/slices/user/signup";
+import { useRouter } from "expo-router";
 
 const signupSchema = yup.object().shape({
   first_name: yup.string().required("This field is required"),
@@ -45,11 +48,10 @@ interface signupValues {
 
 const BasicInfo: React.FC<{
   countries: Country[];
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  data: RegisterData;
-  setData: React.Dispatch<React.SetStateAction<RegisterData>>;
-}> = ({ countries, setPage, data, setData }) => {
-  const { first_name, last_name, email, phone_no, phone_code, password } = data;
+}> = ({ countries }) => {
+  const { first_name, last_name, email, phone_no, phone_code, password } =
+    useAppSelector((state) => state.userRegister.data);
+
   const initialValues: signupValues = {
     first_name,
     last_name,
@@ -59,23 +61,20 @@ const BasicInfo: React.FC<{
     password,
     confirm_password: password,
   };
+
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
-        setData(
-          (prev) =>
-            (prev = {
-              ...prev,
-              ...values,
-            })
-        );
-        setPage(1);
+        dispatch(setUserRegisterData({ data: values }));
+        router.push("/user/register_two");
       }}
       validationSchema={signupSchema}
     >
       {({
-        handleChange,
         handleBlur,
         handleSubmit,
         errors,
@@ -104,10 +103,11 @@ const BasicInfo: React.FC<{
                 value={values.first_name}
                 errors={errors.first_name}
                 touched={touched.first_name}
-                handleChange={handleChange}
+                handleChange={setFieldValue}
                 handleBlur={handleBlur}
                 placeholder="First name"
                 type="familyName"
+                autoCapitalize="sentences"
               />
               <Input
                 label="Last Name"
@@ -115,10 +115,11 @@ const BasicInfo: React.FC<{
                 value={values.last_name}
                 errors={errors.last_name}
                 touched={touched.last_name}
-                handleChange={handleChange}
+                handleChange={setFieldValue}
                 handleBlur={handleBlur}
                 placeholder="Last name"
                 type="givenName"
+                autoCapitalize="sentences"
               />
               <Input
                 label="Email Address"
@@ -126,7 +127,7 @@ const BasicInfo: React.FC<{
                 value={values.email}
                 errors={errors.email}
                 touched={touched.email}
-                handleChange={handleChange}
+                handleChange={setFieldValue}
                 handleBlur={handleBlur}
                 placeholder="Enter email address"
                 type="emailAddress"
@@ -163,7 +164,7 @@ const BasicInfo: React.FC<{
                     value={values.phone_no}
                     errors={errors.phone_no}
                     touched={touched.phone_no}
-                    handleChange={handleChange}
+                    handleChange={setFieldValue}
                     handleBlur={handleBlur}
                     placeholder="Phone No"
                     type="telephoneNumber"
@@ -178,7 +179,7 @@ const BasicInfo: React.FC<{
                 value={values.password}
                 errors={errors.password}
                 touched={touched.password}
-                handleChange={handleChange}
+                handleChange={setFieldValue}
                 handleBlur={handleBlur}
                 placeholder="Enter password"
                 type="password"
@@ -190,7 +191,7 @@ const BasicInfo: React.FC<{
                 value={values.confirm_password}
                 errors={errors.confirm_password}
                 touched={touched.confirm_password}
-                handleChange={handleChange}
+                handleChange={setFieldValue}
                 handleBlur={handleBlur}
                 placeholder="Confirm password"
                 type="password"

@@ -66,7 +66,7 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
             validationSchema={signinSchema}
           >
             {({
-              handleChange,
+              setFieldValue,
               handleBlur,
               handleSubmit,
               errors,
@@ -93,7 +93,7 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
                     value={values.email}
                     errors={errors.email}
                     touched={touched.email}
-                    handleChange={handleChange}
+                    handleChange={setFieldValue}
                     handleBlur={handleBlur}
                     placeholder="Enter email address"
                     type="emailAddress"
@@ -105,7 +105,7 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
                     value={values.password}
                     errors={errors.password}
                     touched={touched.password}
-                    handleChange={handleChange}
+                    handleChange={setFieldValue}
                     handleBlur={handleBlur}
                     placeholder="Enter password"
                     type="password"

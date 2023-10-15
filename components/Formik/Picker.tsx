@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Platform, Text, View } from "react-native";
 import { globalStyles } from "../../constants/styles";
-import { Picker } from "react-native-ui-lib";
+import { Picker, PickerModes } from "react-native-ui-lib";
 
 interface Props {
   label: string;
@@ -20,6 +20,7 @@ interface Props {
     value: string | number;
   }[];
   setValue?: any;
+  mode?: PickerModes;
 }
 
 const Select: React.FC<Props> = ({
@@ -36,6 +37,7 @@ const Select: React.FC<Props> = ({
   showSearch = true,
   useWheel = false,
   setValue,
+  mode = "SINGLE",
 }) => {
   const [list, setList] = useState<
     {
@@ -59,6 +61,7 @@ const Select: React.FC<Props> = ({
           handleChange(name, e);
           setValue && setValue(e);
         }}
+        mode={mode as any}
         onBlur={handleBlur(name)}
         useWheelPicker={useWheel}
         useSafeArea

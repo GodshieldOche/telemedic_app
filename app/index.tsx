@@ -108,9 +108,9 @@ const Onboarding = () => {
     return <Loader />;
   }
 
-  if (alreadyViewd) {
-    return <Redirect href="/(auth)/" />;
-  }
+  // if (alreadyViewd) {
+  //   return <Redirect href="/(auth)/" />;
+  // }
 
   return (
     <View className="flex-1 flex-col relative bg-primaryOne ">

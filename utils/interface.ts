@@ -1,3 +1,5 @@
+import { ImagePickerAsset } from "expo-image-picker";
+
 export type Country = {
   name: string;
   value: string | number;
@@ -6,38 +8,104 @@ export type Country = {
   emoji: string;
 };
 
+export type Address = {
+  country_id: string | number;
+  state_id: string | number;
+  city_id: string | number;
+  postal_code: string;
+  street_line_one: string;
+};
+
 export type RegisterData = {
   email: string;
   password: string;
   first_name: string;
   last_name: string;
   gender: string;
-  dob: Date | undefined;
+  dob: Date | undefined | any;
   phone_code: string;
   phone_no: string;
-  address: {
-    country_id: string | number;
-    state_id: string | number;
-    city_id: string | number;
-    postal_code: string;
-    street_line_one: string;
-  };
+  address: Address;
 };
 
-export type userData = {
-  address: {
-    country_id: string | number;
-    state_id: string | number;
-    city_id: string | number;
-    postal_code: string;
-    street_line_one: string;
-    user_id: string;
-  };
-  dob: string;
-  email: string;
-  first_name: string;
-  gender: string;
+export type Categorish = {
   id: string;
-  last_name: string;
+  name: string;
+  description: string;
+};
+
+export type FacilityRegisterData = {
+  email: string;
   password: string;
+  name: string;
+  description: string;
+  facility_category_id: string;
+  facility_type_id: string;
+  phone_code: string;
+  phone_no: string;
+  services: string[];
+  address: Address;
+};
+
+export type PractitionerRegisterData = {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+  description: string;
+  practitioner_category_id: string;
+  practitioner_practice_id: string;
+  phone_code: string;
+  phone_no: string;
+  nin?: string;
+  services: string[];
+  address: Address;
+};
+
+export type Licence = {
+  name: string;
+  description: string;
+  from: Date | undefined | any;
+  to: Date | undefined | any;
+  licence_doc: File | undefined | any;
+};
+
+export type Experience = {
+  title: string;
+  organisation: string;
+  description: string;
+  country_id: string;
+  present: boolean;
+  from: Date | undefined | any;
+  to: Date | undefined | any;
+};
+
+export type Education = {
+  institution: string;
+  fieldOfStudy: string;
+  degreeId: string;
+  countryId: string;
+  from: Date | undefined | any;
+  to: Date | undefined | any;
+  present: boolean;
+  certificate_doc: File | undefined | any;
+};
+
+export type Certification = {
+  name: string;
+  description: string;
+  date: Date | undefined | any;
+  certificate_doc: File | undefined | any;
+};
+
+export type Gallery = {
+  images: ImagePickerAsset[];
+  videos: ImagePickerAsset[];
+};
+
+export type FaceDetectionChecks = {
+  isFace: boolean;
+  isStraight: boolean;
+  isSmiling: boolean;
+  isEyeShut: boolean;
 };

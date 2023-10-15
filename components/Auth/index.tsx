@@ -9,7 +9,10 @@ const SignUpOptions: React.FC<{ handleSignIn: () => void }> = ({
   handleSignIn,
 }) => {
   const handleUserRegister = () => {
-    router.push("/(auth)/register_user");
+    router.push("/(auth)/user/register_one");
+  };
+  const handleProviderRegister = () => {
+    router.push("/(auth)/providers_options");
   };
 
   const router = useRouter();
@@ -36,7 +39,10 @@ const SignUpOptions: React.FC<{ handleSignIn: () => void }> = ({
             title="User of healthcare services"
             action={handleUserRegister}
           />
-          <IconTextBox title="Provider of healthcare services" />
+          <IconTextBox
+            title="Provider of healthcare services"
+            action={handleProviderRegister}
+          />
         </View>
 
         <View className="w-full flex-row items-center justify-center ">
