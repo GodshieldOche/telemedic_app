@@ -56,7 +56,7 @@ const DocPicker: React.FC<Props> = ({
       }}
     >
       <Text
-        className="text-base text-secondaryBlack pl-2"
+        className="text-base text-secondaryBlack pl-4"
         style={globalStyles.meduim_text}
       >
         {label}

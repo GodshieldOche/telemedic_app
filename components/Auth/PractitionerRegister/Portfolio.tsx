@@ -14,6 +14,7 @@ import {
   deleteFromPractitionerExperiences,
   deleteFromPractitionerLicences,
 } from "../../../redux/slices/practitioner/practitioner_portfolio";
+import { ScrollView } from "react-native-gesture-handler";
 
 const PractitionerPortfolio = () => {
   const { certifications, licences, educations, experiences } = useAppSelector(
@@ -26,240 +27,281 @@ const PractitionerPortfolio = () => {
     return year;
   };
   return (
-    <View className="py-7 flex-1 relative space-y-12">
-      {/* Certification */}
-      <View className="flex-1 space-y-3">
-        <AdderHeader
-          title="Certifications"
-          action={() => router.push("/(auth)/practitioner/certification/")}
-        />
-        {certifications.map((certification, index) => (
-          <View
-            key={index}
-            className="bg-primaryGray p-5 space-y-4 rounded-lg "
-          >
-            <View className="flex flex-row  justify-between items-center">
-              <Text style={[globalStyles.semibold_text, { fontSize: 16 }]}>
-                {certification.name}
-              </Text>
+    <>
+      <ScrollView className=" py-6 px-4 flex-1">
+        <View className="py-7 flex-1 !mb-28 relative space-y-12">
+          {/* Certification */}
+          <View className="flex-1 space-y-3">
+            <AdderHeader
+              title="Certifications"
+              action={() => router.push("/(auth)/practitioner/certification/")}
+            />
+            {certifications.map((certification, index) => (
+              <View
+                key={index}
+                className="bg-primaryGray p-5 space-y-4 rounded-lg "
+              >
+                <View className="flex flex-row  justify-between items-center">
+                  <Text style={[globalStyles.semibold_text, { fontSize: 16 }]}>
+                    {certification.name}
+                  </Text>
 
-              <View className="flex flex-row space-x-4 ">
-                <AntDesign
-                  name="edit"
-                  size={24}
-                  color="black"
-                  onPress={() =>
-                    router.push(`/(auth)/practitioner/certification/${index}`)
-                  }
-                />
-                <MaterialCommunityIcons
-                  name="delete-outline"
-                  size={24}
-                  color="black"
-                  onPress={() =>
-                    dispatch(deleteFromPractitionerCertifications({ index }))
-                  }
-                />
+                  <View className="flex flex-row space-x-4 ">
+                    <AntDesign
+                      name="edit"
+                      size={24}
+                      color="black"
+                      onPress={() =>
+                        router.push(
+                          `/(auth)/practitioner/certification/${index}`
+                        )
+                      }
+                    />
+                    <MaterialCommunityIcons
+                      name="delete-outline"
+                      size={24}
+                      color="black"
+                      onPress={() =>
+                        dispatch(
+                          deleteFromPractitionerCertifications({ index })
+                        )
+                      }
+                    />
+                  </View>
+                </View>
+                <Text
+                  style={[
+                    globalStyles.regular_text,
+                    {
+                      fontSize: 14,
+                    },
+                  ]}
+                >
+                  {getDate(certification.date)}
+                </Text>
               </View>
-            </View>
-            <Text
-              style={[
-                globalStyles.regular_text,
-                {
-                  fontSize: 14,
-                },
-              ]}
-            >
-              {getDate(certification.date)}
-            </Text>
+            ))}
           </View>
-        ))}
-      </View>
 
-      {/* Licence */}
-      <View className="flex-1 space-y-3">
-        <AdderHeader
-          title="Licences"
-          action={() => router.push("/(auth)/practitioner/licence/")}
-        />
-        {licences.map((licence, index) => (
-          <View
-            key={index}
-            className="bg-primaryGray p-5 space-y-4 rounded-lg "
-          >
-            <View className="flex flex-row  justify-between items-center">
-              <Text style={[globalStyles.semibold_text, { fontSize: 16 }]}>
-                {licence.name}
-              </Text>
+          {/* Licence */}
+          <View className="flex-1 space-y-3">
+            <AdderHeader
+              title="Licences"
+              action={() => router.push("/(auth)/practitioner/licence/")}
+            />
+            {licences.map((licence, index) => (
+              <View
+                key={index}
+                className="bg-primaryGray p-5 space-y-4 rounded-lg "
+              >
+                <View className="flex flex-row  justify-between items-center">
+                  <Text style={[globalStyles.semibold_text, { fontSize: 16 }]}>
+                    {licence.name}
+                  </Text>
 
-              <View className="flex flex-row space-x-4 ">
-                <AntDesign
-                  name="edit"
-                  size={24}
-                  color="black"
-                  onPress={() =>
-                    router.push(`/(auth)/practitioner/licence/${index}`)
-                  }
-                />
-                <MaterialCommunityIcons
-                  name="delete-outline"
-                  size={24}
-                  color="black"
-                  onPress={() =>
-                    dispatch(deleteFromPractitionerLicences({ index }))
-                  }
-                />
+                  <View className="flex flex-row space-x-4 ">
+                    <AntDesign
+                      name="edit"
+                      size={24}
+                      color="black"
+                      onPress={() =>
+                        router.push(`/(auth)/practitioner/licence/${index}`)
+                      }
+                    />
+                    <MaterialCommunityIcons
+                      name="delete-outline"
+                      size={24}
+                      color="black"
+                      onPress={() =>
+                        dispatch(deleteFromPractitionerLicences({ index }))
+                      }
+                    />
+                  </View>
+                </View>
+                <View className="flex flex-row items-center">
+                  <Text
+                    style={[
+                      globalStyles.regular_text,
+                      {
+                        fontSize: 14,
+                      },
+                    ]}
+                  >
+                    {getDate(licence.from)} {"-"}{" "}
+                  </Text>
+                  <Text
+                    style={[
+                      globalStyles.regular_text,
+                      {
+                        fontSize: 14,
+                      },
+                    ]}
+                  >
+                    {getDate(licence.to)}
+                  </Text>
+                </View>
               </View>
-            </View>
-            <View className="flex flex-row items-center">
-              <Text
-                style={[
-                  globalStyles.regular_text,
-                  {
-                    fontSize: 14,
-                  },
-                ]}
-              >
-                {getDate(licence.from)} {"-"}{" "}
-              </Text>
-              <Text
-                style={[
-                  globalStyles.regular_text,
-                  {
-                    fontSize: 14,
-                  },
-                ]}
-              >
-                {getDate(licence.to)}
-              </Text>
-            </View>
+            ))}
           </View>
-        ))}
-      </View>
 
-      {/* Education */}
-      <View className="flex-1 space-y-3">
-        <AdderHeader
-          title="Educations"
-          action={() => router.push("/(auth)/practitioner/education/")}
-        />
-        {educations.map((education, index) => (
-          <View
-            key={index}
-            className="bg-primaryGray p-5 space-y-4 rounded-lg "
-          >
-            <View className="flex flex-row  justify-between items-center">
-              <Text style={[globalStyles.semibold_text, { fontSize: 16 }]}>
-                {education.fieldOfStudy}
-              </Text>
+          {/* Education */}
+          <View className="flex-1 space-y-3">
+            <AdderHeader
+              title="Educations"
+              action={() => router.push("/(auth)/practitioner/education/")}
+            />
+            {educations.map((education, index) => (
+              <View
+                key={index}
+                className="bg-primaryGray p-5 space-y-4 rounded-lg "
+              >
+                <View className="flex flex-row  justify-between items-start">
+                  <View className="space-y-2">
+                    <Text
+                      style={[globalStyles.semibold_text, { fontSize: 16 }]}
+                    >
+                      {education.field_of_study}
+                    </Text>
+                    <Text
+                      style={[
+                        globalStyles.semibold_text,
+                        { fontSize: 14, color: "#606060" },
+                      ]}
+                    >
+                      {education.institution}
+                    </Text>
+                  </View>
 
-              <View className="flex flex-row space-x-4 ">
-                <AntDesign
-                  name="edit"
-                  size={24}
-                  color="black"
-                  onPress={() =>
-                    router.push(`/(auth)/practitioner/education/${index}`)
-                  }
-                />
-                <MaterialCommunityIcons
-                  name="delete-outline"
-                  size={24}
-                  color="black"
-                  onPress={() =>
-                    dispatch(deleteFromPractitionerEducations({ index }))
-                  }
-                />
+                  <View className="flex flex-row space-x-4 ">
+                    <AntDesign
+                      name="edit"
+                      size={24}
+                      color="black"
+                      onPress={() =>
+                        router.push(`/(auth)/practitioner/education/${index}`)
+                      }
+                    />
+                    <MaterialCommunityIcons
+                      name="delete-outline"
+                      size={24}
+                      color="black"
+                      onPress={() =>
+                        dispatch(deleteFromPractitionerEducations({ index }))
+                      }
+                    />
+                  </View>
+                </View>
+                <View className="flex flex-row items-center">
+                  <Text
+                    style={[
+                      globalStyles.regular_text,
+                      {
+                        fontSize: 14,
+                      },
+                    ]}
+                  >
+                    {getDate(education.from)} {"-"}{" "}
+                  </Text>
+                  <Text
+                    style={[
+                      globalStyles.regular_text,
+                      {
+                        fontSize: 14,
+                      },
+                    ]}
+                  >
+                    {education.present ? "Present" : getDate(education.to)}
+                  </Text>
+                </View>
               </View>
-            </View>
-            <View className="flex flex-row items-center">
-              <Text
-                style={[
-                  globalStyles.regular_text,
-                  {
-                    fontSize: 14,
-                  },
-                ]}
-              >
-                {getDate(education.from)} {"-"}{" "}
-              </Text>
-              <Text
-                style={[
-                  globalStyles.regular_text,
-                  {
-                    fontSize: 14,
-                  },
-                ]}
-              >
-                {getDate(education.to)}
-              </Text>
-            </View>
+            ))}
           </View>
-        ))}
-      </View>
 
-      {/* Experinces */}
-      <View className="flex-1 space-y-3">
-        <AdderHeader
-          title="Experiences"
-          action={() => router.push("/(auth)/practitioner/experience/")}
-        />
-        {experiences.map((experience, index) => (
-          <View
-            key={index}
-            className="bg-primaryGray p-5 space-y-4 rounded-lg "
-          >
-            <View className="flex flex-row  justify-between items-center">
-              <Text style={[globalStyles.semibold_text, { fontSize: 16 }]}>
-                {experience.title}
-              </Text>
+          {/* Experinces */}
+          <View className="flex-1 space-y-3">
+            <AdderHeader
+              title="Experiences"
+              action={() => router.push("/(auth)/practitioner/experience/")}
+            />
+            {experiences.map((experience, index) => (
+              <View
+                key={index}
+                className="bg-primaryGray p-5 space-y-4 rounded-lg "
+              >
+                <View className="flex flex-row  justify-between items-start">
+                  <View className="space-y-2">
+                    <Text
+                      style={[globalStyles.semibold_text, { fontSize: 16 }]}
+                    >
+                      {experience.title}
+                    </Text>
+                    <Text
+                      style={[
+                        globalStyles.semibold_text,
+                        { fontSize: 14, color: "#606060" },
+                      ]}
+                    >
+                      {experience.organisation}
+                    </Text>
+                  </View>
 
-              <View className="flex flex-row space-x-4 ">
-                <AntDesign
-                  name="edit"
-                  size={24}
-                  color="black"
-                  onPress={() =>
-                    router.push(`/(auth)/practitioner/experience/${index}`)
-                  }
-                />
-                <MaterialCommunityIcons
-                  name="delete-outline"
-                  size={24}
-                  color="black"
-                  onPress={() =>
-                    dispatch(deleteFromPractitionerExperiences({ index }))
-                  }
-                />
+                  <View className="flex flex-row space-x-4 ">
+                    <AntDesign
+                      name="edit"
+                      size={24}
+                      color="black"
+                      onPress={() =>
+                        router.push(`/(auth)/practitioner/experience/${index}`)
+                      }
+                    />
+                    <MaterialCommunityIcons
+                      name="delete-outline"
+                      size={24}
+                      color="black"
+                      onPress={() =>
+                        dispatch(deleteFromPractitionerExperiences({ index }))
+                      }
+                    />
+                  </View>
+                </View>
+                <View className="space-y-4">
+                  <View className="flex flex-row items-center">
+                    <Text
+                      style={[
+                        globalStyles.regular_text,
+                        {
+                          fontSize: 14,
+                        },
+                      ]}
+                    >
+                      {getDate(experience.from)} {"-"}{" "}
+                    </Text>
+                    <Text
+                      style={[
+                        globalStyles.regular_text,
+                        {
+                          fontSize: 14,
+                        },
+                      ]}
+                    >
+                      {experience.present ? "Present" : getDate(experience.to)}
+                    </Text>
+                  </View>
+                  <Text
+                    style={[
+                      globalStyles.semibold_text,
+                      { fontSize: 14, color: "#606060" },
+                    ]}
+                  >
+                    {experience.description}
+                  </Text>
+                </View>
               </View>
-            </View>
-            <View className="flex flex-row items-center">
-              <Text
-                style={[
-                  globalStyles.regular_text,
-                  {
-                    fontSize: 14,
-                  },
-                ]}
-              >
-                {getDate(experience.from)} {"-"}{" "}
-              </Text>
-              <Text
-                style={[
-                  globalStyles.regular_text,
-                  {
-                    fontSize: 14,
-                  },
-                ]}
-              >
-                {getDate(experience.to)}
-              </Text>
-            </View>
+            ))}
           </View>
-        ))}
-      </View>
-
-      <View className=" flex-1 w-full flex-row justify-end">
+        </View>
+      </ScrollView>
+      <View className="absolute bottom-4 right-4 ">
         <IconButton
           SVG={
             <Svg width="28" height="28" color="#fff" viewBox="0 0 24 24">
@@ -270,9 +312,15 @@ const PractitionerPortfolio = () => {
             </Svg>
           }
           action={() => router.push("/(auth)/practitioner/register_three")}
+          disabled={
+            !certifications.length ||
+            !licences.length ||
+            !experiences.length ||
+            !educations.length
+          }
         />
       </View>
-    </View>
+    </>
   );
 };
 

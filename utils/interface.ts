@@ -74,7 +74,7 @@ export type Experience = {
   title: string;
   organisation: string;
   description: string;
-  country_id: string;
+  country_id: string | number;
   present: boolean;
   from: Date | undefined | any;
   to: Date | undefined | any;
@@ -82,13 +82,12 @@ export type Experience = {
 
 export type Education = {
   institution: string;
-  fieldOfStudy: string;
-  degreeId: string;
-  countryId: string;
+  degree_id: string;
+  field_of_study: string;
+  country_id: string | number;
   from: Date | undefined | any;
   to: Date | undefined | any;
   present: boolean;
-  certificate_doc: File | undefined | any;
 };
 
 export type Certification = {

@@ -49,6 +49,28 @@ export const postPractitionerSignUp: any = createAsyncThunk(
   }
 );
 
+export const postPractitionerUploadKycImages: any = createAsyncThunk(
+  `practitioner_signup/postPractitionerUploadKycImages`,
+  async ({ body, token }: any, { rejectWithValue }) => {
+    const url = process.env.EXPO_PUBLIC_API_URL;
+    try {
+      const { data }: any = await axios.post(
+        `${url}/api/practitioner/auth/register/kyc`,
+        body,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const postPractitionerResendOTP: any = createAsyncThunk(
   `practitioner_signup/postPractitionerResendOTP`,
   async (body: { email: string }, { rejectWithValue }) => {

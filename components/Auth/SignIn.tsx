@@ -64,6 +64,7 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
               router.replace("/(user)/");
             }}
             validationSchema={signinSchema}
+            validateOnMount
           >
             {({
               setFieldValue,
@@ -73,6 +74,7 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
               touched,
               values,
               isSubmitting,
+              isValid,
             }) => (
               <View
                 style={{
@@ -123,6 +125,7 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
                     action={handleSubmit}
                     text="Sign In"
                     loading={isSubmitting}
+                    disabled={!isValid}
                   />
 
                   <View className="flex w-full items-center space-y-6 ">

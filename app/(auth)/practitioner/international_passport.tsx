@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
 import useAppDispatch, { useAppSelector } from "../../../hooks/useDispatch";
-import { setPractitionerFiles } from "../../../redux/slices/practitioner/practitioner_signup";
+import {
+  setPractitionerFiles,
+  setPractitionerRegisterData,
+} from "../../../redux/slices/practitioner/practitioner_signup";
 import { router } from "expo-router";
 import KycDocUpload from "../../../components/Auth/KycDocUpload";
 
@@ -34,7 +37,15 @@ const InternationalPassport = () => {
     dispatch(
       setPractitionerFiles({
         data: {
+          driving_licence: undefined,
           international_passport: image,
+        },
+      })
+    );
+    dispatch(
+      setPractitionerRegisterData({
+        data: {
+          nin: "",
         },
       })
     );

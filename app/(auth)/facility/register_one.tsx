@@ -31,11 +31,9 @@ const CreateAccountFacility = () => {
   }
 
   return (
-    <ScrollView className="bg-white  flex-1">
-      <View className="py-6 px-4">
-        <HealthCareInfo types={types} countries={countries} />
-      </View>
-    </ScrollView>
+    <View className="bg-white relative  flex-1">
+      <HealthCareInfo types={types} countries={countries} />
+    </View>
   );
 };
 

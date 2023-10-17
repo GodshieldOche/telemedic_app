@@ -16,6 +16,7 @@ import { getCities, resetCities } from "../../../redux/slices/app/cities";
 import CheckBox from "../../Formik/Checkbox";
 import { globalStyles } from "../../../constants/styles";
 import { setPractitionerRegisterData } from "../../../redux/slices/practitioner/practitioner_signup";
+import { ScrollView } from "react-native-gesture-handler";
 
 const practitionerSignupSchema = yup.object().shape({
   practitioner_practice_id: yup.string().required("This field is required"),
@@ -159,9 +160,10 @@ const PersonalInfo: React.FC<{
           },
         };
         dispatch(setPractitionerRegisterData({ data }));
-        router.push("/(auth)/facility/register_two");
+        router.push("/(auth)/practitioner/register_two");
       }}
       validationSchema={practitionerSignupSchema}
+      validateOnMount={true}
     >
       {({
         handleBlur,
@@ -170,271 +172,276 @@ const PersonalInfo: React.FC<{
         touched,
         values,
         setFieldValue,
+        isValid,
       }) => (
-        <View
-          className="flex-1 w-full space-y-8 "
-          style={{
-            rowGap: 32,
-          }}
-        >
-          <View
-            className=" h-full w-full bg-primaryGray px-4 py-5 rounded-lg"
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              rowGap: 16,
-            }}
-          >
-            <Input
-              label="First Name"
-              name="first_name"
-              value={values.first_name}
-              errors={errors.first_name}
-              touched={touched.first_name}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="First name"
-              type="name"
-              autoCapitalize="sentences"
-            />
-            <Input
-              label="Last Name"
-              name="last_name"
-              value={values.last_name}
-              errors={errors.last_name}
-              touched={touched.last_name}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="Last name"
-              type="name"
-              autoCapitalize="sentences"
-            />
-
-            <Input
-              label="Email Address"
-              name="email"
-              value={values.email}
-              errors={errors.email}
-              touched={touched.email}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="Enter email address"
-              type="emailAddress"
-              mode="email"
-            />
-
-            <Select
-              label="Practice"
-              name="practitioner_practice_id"
-              value={values.practitioner_practice_id}
-              errors={errors.practitioner_practice_id}
-              touched={touched.practitioner_practice_id}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="Select practice"
-              items={practices?.map((practice) => ({
-                label: practice.name,
-                value: practice.id,
-              }))}
-            />
-
-            <TagsInput
-              label="Services"
-              name="services"
-              values={values.services}
-              errors={errors.services}
-              touched={touched.services}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="Type in Service and Hit enter"
-              type="none"
-              autoCapitalize="sentences"
-            />
-            <TextArea
-              label="Description"
-              name="description"
-              value={values.description}
-              errors={errors.description}
-              touched={touched.description}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="Description"
-              type="none"
-              autoCapitalize="sentences"
-            />
+        <>
+          <ScrollView className=" py-6 px-4 flex-1">
             <View
+              className="flex-1 !mb-28 w-full space-y-8 "
               style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                columnGap: 8,
-                alignItems: "flex-start",
+                rowGap: 32,
               }}
             >
-              <View className="w-[38%]">
-                <Select
-                  label="Phone Code"
-                  name="phone_code"
-                  value={values.phone_code}
-                  errors={errors.phone_code}
-                  touched={touched.phone_code}
+              <View
+                className=" h-full w-full bg-primaryGray px-4 py-5 rounded-lg"
+                style={{
+                  flex: 1,
+                  flexDirection: "column",
+                  rowGap: 16,
+                }}
+              >
+                <Input
+                  label="First Name"
+                  name="first_name"
+                  value={values.first_name}
+                  errors={errors.first_name}
+                  touched={touched.first_name}
                   handleChange={setFieldValue}
                   handleBlur={handleBlur}
-                  placeholder="🇳🇬 +234"
-                  items={countries?.map((country) => ({
-                    label: `${country.emoji} ${country.phone_code}`,
-                    value: country.phone_code,
+                  placeholder="First name"
+                  type="name"
+                  autoCapitalize="sentences"
+                />
+                <Input
+                  label="Last Name"
+                  name="last_name"
+                  value={values.last_name}
+                  errors={errors.last_name}
+                  touched={touched.last_name}
+                  handleChange={setFieldValue}
+                  handleBlur={handleBlur}
+                  placeholder="Last name"
+                  type="name"
+                  autoCapitalize="sentences"
+                />
+
+                <Input
+                  label="Email Address"
+                  name="email"
+                  value={values.email}
+                  errors={errors.email}
+                  touched={touched.email}
+                  handleChange={setFieldValue}
+                  handleBlur={handleBlur}
+                  placeholder="Enter email address"
+                  type="emailAddress"
+                  mode="email"
+                />
+
+                <Select
+                  label="Practice"
+                  name="practitioner_practice_id"
+                  value={values.practitioner_practice_id}
+                  errors={errors.practitioner_practice_id}
+                  touched={touched.practitioner_practice_id}
+                  handleChange={setFieldValue}
+                  handleBlur={handleBlur}
+                  placeholder="Select practice"
+                  items={practices?.map((practice) => ({
+                    label: practice.name,
+                    value: practice.id,
                   }))}
                 />
-              </View>
-              <View className="w-[60%]">
-                <Input
-                  label="Phone No"
-                  name="phone_no"
-                  value={values.phone_no}
-                  errors={errors.phone_no}
-                  touched={touched.phone_no}
+
+                <TagsInput
+                  label="Services"
+                  name="services"
+                  values={values.services}
+                  errors={errors.services}
+                  touched={touched.services}
                   handleChange={setFieldValue}
                   handleBlur={handleBlur}
-                  placeholder="Phone No"
-                  type="telephoneNumber"
-                  mode="tel"
+                  placeholder="Type in Service and Hit enter"
+                  type="none"
+                  autoCapitalize="sentences"
                 />
-              </View>
-            </View>
-
-            <Select
-              label="Country"
-              name="country_id"
-              value={values.country_id}
-              errors={errors.country_id}
-              touched={touched.country_id}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="Select Country"
-              items={countries?.map((country) => ({
-                label: `${country.emoji} ${country.name}`,
-                value: country.value,
-              }))}
-              setValue={setCount}
-            />
-            <Select
-              label="State "
-              name="state_id"
-              value={values.state_id}
-              errors={errors.state_id}
-              touched={touched.state_id}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="Select State"
-              items={states.map((state) => ({
-                label: state.name,
-                value: state.value,
-              }))}
-              setValue={setStat}
-            />
-
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                columnGap: 8,
-                alignItems: "flex-start",
-              }}
-            >
-              <View className="w-[50%]">
-                <Select
-                  label="City"
-                  name="city_id"
-                  value={values.city_id}
-                  errors={errors.city_id}
-                  touched={touched.city_id}
+                <TextArea
+                  label="Description"
+                  name="description"
+                  value={values.description}
+                  errors={errors.description}
+                  touched={touched.description}
                   handleChange={setFieldValue}
                   handleBlur={handleBlur}
-                  placeholder="Select City"
-                  items={cities?.map((city) => ({
-                    label: city.name,
-                    value: city.value,
-                  }))}
+                  placeholder="Description"
+                  type="none"
+                  autoCapitalize="sentences"
                 />
-              </View>
-              <View className="w-[50%]">
-                <Input
-                  label="Postal Code"
-                  name="postal_code"
-                  value={values.postal_code}
-                  errors={errors.postal_code}
-                  touched={touched.postal_code}
-                  handleChange={setFieldValue}
-                  handleBlur={handleBlur}
-                  placeholder="Postal Code"
-                  type="postalCode"
-                />
-              </View>
-            </View>
-
-            <Input
-              label="Address"
-              name="street_line_one"
-              value={values.street_line_one}
-              errors={errors.street_line_one}
-              touched={touched.street_line_one}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="Address"
-              type="fullStreetAddress"
-            />
-
-            <Input
-              label="Password"
-              name="password"
-              value={values.password}
-              errors={errors.password}
-              touched={touched.password}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="Enter password"
-              type="password"
-              secureTextEntry={true}
-            />
-            <Input
-              label="Confirm Password"
-              name="confirm_password"
-              value={values.confirm_password}
-              errors={errors.confirm_password}
-              touched={touched.confirm_password}
-              handleChange={setFieldValue}
-              handleBlur={handleBlur}
-              placeholder="Confirm password"
-              type="password"
-              secureTextEntry={true}
-            />
-          </View>
-          <CheckBox
-            name="read"
-            label={
-              <View className="w-full flex-row items-center ">
-                <Text style={[globalStyles.regular_text, { fontSize: 16 }]}>
-                  I have read and accepted{" "}
-                </Text>
-                <Pressable
-                  onPress={() => router.push("/(auth)/terms_and_condtions")}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    columnGap: 8,
+                    alignItems: "flex-start",
+                  }}
                 >
-                  <Text
-                    className="text-primaryOne "
-                    style={[globalStyles.bold_text, { fontSize: 16 }]}
-                  >
-                    the terms & conditions
-                  </Text>
-                </Pressable>
+                  <View className="w-[38%]">
+                    <Select
+                      label="Phone Code"
+                      name="phone_code"
+                      value={values.phone_code}
+                      errors={errors.phone_code}
+                      touched={touched.phone_code}
+                      handleChange={setFieldValue}
+                      handleBlur={handleBlur}
+                      placeholder="🇳🇬 +234"
+                      items={countries?.map((country) => ({
+                        label: `${country.emoji} ${country.phone_code}`,
+                        value: country.phone_code,
+                      }))}
+                    />
+                  </View>
+                  <View className="w-[60%]">
+                    <Input
+                      label="Phone No"
+                      name="phone_no"
+                      value={values.phone_no}
+                      errors={errors.phone_no}
+                      touched={touched.phone_no}
+                      handleChange={setFieldValue}
+                      handleBlur={handleBlur}
+                      placeholder="Phone No"
+                      type="telephoneNumber"
+                      mode="tel"
+                    />
+                  </View>
+                </View>
+
+                <Select
+                  label="Country"
+                  name="country_id"
+                  value={values.country_id}
+                  errors={errors.country_id}
+                  touched={touched.country_id}
+                  handleChange={setFieldValue}
+                  handleBlur={handleBlur}
+                  placeholder="Select Country"
+                  items={countries?.map((country) => ({
+                    label: `${country.emoji} ${country.name}`,
+                    value: country.value,
+                  }))}
+                  setValue={setCount}
+                />
+                <Select
+                  label="State "
+                  name="state_id"
+                  value={values.state_id}
+                  errors={errors.state_id}
+                  touched={touched.state_id}
+                  handleChange={setFieldValue}
+                  handleBlur={handleBlur}
+                  placeholder="Select State"
+                  items={states.map((state) => ({
+                    label: state.name,
+                    value: state.value,
+                  }))}
+                  setValue={setStat}
+                />
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    columnGap: 8,
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <View className="w-[50%]">
+                    <Select
+                      label="City"
+                      name="city_id"
+                      value={values.city_id}
+                      errors={errors.city_id}
+                      touched={touched.city_id}
+                      handleChange={setFieldValue}
+                      handleBlur={handleBlur}
+                      placeholder="Select City"
+                      items={cities?.map((city) => ({
+                        label: city.name,
+                        value: city.value,
+                      }))}
+                    />
+                  </View>
+                  <View className="w-[50%]">
+                    <Input
+                      label="Postal Code"
+                      name="postal_code"
+                      value={values.postal_code}
+                      errors={errors.postal_code}
+                      touched={touched.postal_code}
+                      handleChange={setFieldValue}
+                      handleBlur={handleBlur}
+                      placeholder="Postal Code"
+                      type="postalCode"
+                    />
+                  </View>
+                </View>
+
+                <Input
+                  label="Address"
+                  name="street_line_one"
+                  value={values.street_line_one}
+                  errors={errors.street_line_one}
+                  touched={touched.street_line_one}
+                  handleChange={setFieldValue}
+                  handleBlur={handleBlur}
+                  placeholder="Address"
+                  type="fullStreetAddress"
+                />
+
+                <Input
+                  label="Password"
+                  name="password"
+                  value={values.password}
+                  errors={errors.password}
+                  touched={touched.password}
+                  handleChange={setFieldValue}
+                  handleBlur={handleBlur}
+                  placeholder="Enter password"
+                  type="password"
+                  secureTextEntry={true}
+                />
+                <Input
+                  label="Confirm Password"
+                  name="confirm_password"
+                  value={values.confirm_password}
+                  errors={errors.confirm_password}
+                  touched={touched.confirm_password}
+                  handleChange={setFieldValue}
+                  handleBlur={handleBlur}
+                  placeholder="Confirm password"
+                  type="password"
+                  secureTextEntry={true}
+                />
               </View>
-            }
-            errors={errors.read}
-            touched={touched.read}
-            value={values.read}
-            handleChange={setFieldValue}
-            handleBlur={handleBlur}
-          />
-          <View className="flex-1 w-full flex-row justify-end">
+              <CheckBox
+                name="read"
+                label={
+                  <View className="w-full flex-row items-center ">
+                    <Text style={[globalStyles.regular_text, { fontSize: 16 }]}>
+                      I have read and accepted{" "}
+                    </Text>
+                    <Pressable
+                      onPress={() => router.push("/(auth)/terms_and_condtions")}
+                    >
+                      <Text
+                        className="text-primaryOne "
+                        style={[globalStyles.bold_text, { fontSize: 16 }]}
+                      >
+                        the terms & conditions
+                      </Text>
+                    </Pressable>
+                  </View>
+                }
+                errors={errors.read}
+                touched={touched.read}
+                value={values.read}
+                handleChange={setFieldValue}
+                handleBlur={handleBlur}
+              />
+            </View>
+          </ScrollView>
+          <View className="absolute bottom-4 right-4 ">
             <IconButton
               SVG={
                 <Svg width="28" height="28" color="#fff" viewBox="0 0 24 24">
@@ -445,9 +452,10 @@ const PersonalInfo: React.FC<{
                 </Svg>
               }
               action={handleSubmit}
+              disabled={!isValid}
             />
           </View>
-        </View>
+        </>
       )}
     </Formik>
   );

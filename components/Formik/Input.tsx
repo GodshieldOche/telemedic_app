@@ -45,7 +45,7 @@ const Input: React.FC<Props> = ({
   return (
     <View className="w-full  flex space-y-2">
       <Text
-        className="text-base text-secondaryBlack pl-2"
+        className="text-base text-secondaryBlack pl-4"
         style={globalStyles.meduim_text}
       >
         {label}

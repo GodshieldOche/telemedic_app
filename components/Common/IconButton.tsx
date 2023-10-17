@@ -5,13 +5,23 @@ interface Props {
   action: () => void;
   SVG: any;
   loading?: boolean;
+  disabled?: boolean;
 }
 
-const IconButton: React.FC<Props> = ({ action, SVG, loading = false }) => {
+const IconButton: React.FC<Props> = ({
+  action,
+  SVG,
+  loading = false,
+  disabled = false,
+}) => {
   return (
     <Pressable
       onPress={action}
-      className="w-14 h-14 bg-primaryOne justify-center items-center rounded-full "
+      disabled={disabled}
+      className="w-14 h-14  justify-center items-center rounded-full "
+      style={{
+        backgroundColor: disabled ? "#E5DFFF" : "#8863F2",
+      }}
     >
       {loading ? <ActivityIndicator size="small" color="#fff" /> : SVG}
     </Pressable>

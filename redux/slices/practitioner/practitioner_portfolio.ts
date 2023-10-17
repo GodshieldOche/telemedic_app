@@ -39,7 +39,7 @@ export const postAddPractitionerCertification: any = createAsyncThunk(
       );
       return data.data;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error?.response?.data);
     }
   }
 );
@@ -61,7 +61,7 @@ export const postAddPractitionerLicence: any = createAsyncThunk(
       );
       return data.data;
     } catch (error: any) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error?.response?.data);
     }
   }
 );
@@ -76,7 +76,7 @@ export const postAddPractitionerEducation: any = createAsyncThunk(
         body,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -98,7 +98,7 @@ export const postAddPractitionerExperience: any = createAsyncThunk(
         body,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -268,7 +268,6 @@ export const practitioner_portfolioSlice = createSlice({
         postAddPractitionerCertification.fulfilled,
         (state, { payload }) => {
           state.loading = false;
-          state.data = payload;
         }
       ),
       builder.addCase(
@@ -285,7 +284,6 @@ export const practitioner_portfolioSlice = createSlice({
         postAddPractitionerLicence.fulfilled,
         (state, { payload }) => {
           state.loading = false;
-          state.data = payload;
         }
       ),
       builder.addCase(
@@ -302,7 +300,6 @@ export const practitioner_portfolioSlice = createSlice({
         postAddPractitionerEducation.fulfilled,
         (state, { payload }) => {
           state.loading = false;
-          state.data = payload;
         }
       ),
       builder.addCase(
@@ -319,7 +316,6 @@ export const practitioner_portfolioSlice = createSlice({
         postAddPractitionerExperience.fulfilled,
         (state, { payload }) => {
           state.loading = false;
-          state.data = payload;
         }
       ),
       builder.addCase(

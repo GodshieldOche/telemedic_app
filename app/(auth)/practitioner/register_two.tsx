@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import React from "react";
-import { ScrollView } from "react-native-gesture-handler";
 import { useAppSelector } from "../../../hooks/useDispatch";
 import Loader from "../../../components/Common/Loader";
 import PractitionerPortfolio from "../../../components/Auth/PractitionerRegister/Portfolio";
@@ -13,11 +12,9 @@ const CreateAccountFacility = () => {
   }
 
   return (
-    <ScrollView className="bg-white  flex-1">
-      <View className="py-6 px-4">
-        <PractitionerPortfolio />
-      </View>
-    </ScrollView>
+    <View className="bg-white relative  flex-1">
+      <PractitionerPortfolio />
+    </View>
   );
 };
 

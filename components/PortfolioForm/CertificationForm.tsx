@@ -35,6 +35,7 @@ const CertificationForm: React.FC<{
         handleSubmit(values);
       }}
       validationSchema={certificateSchema}
+      validateOnMount
     >
       {({
         handleBlur,
@@ -44,6 +45,7 @@ const CertificationForm: React.FC<{
         values,
         setFieldValue,
         isSubmitting,
+        isValid,
       }) => (
         <View
           className="flex-1 w-full "
@@ -112,7 +114,12 @@ const CertificationForm: React.FC<{
               />
             </View>
           </View>
-          <Button text="Save" loading={isSubmitting} action={handleSubmit} />
+          <Button
+            text="Save"
+            loading={isSubmitting}
+            disabled={!isValid}
+            action={handleSubmit}
+          />
         </View>
       )}
     </Formik>

@@ -36,6 +36,7 @@ const GalleryForm: React.FC<{
         handleSubmit(values, setSubmitting);
       }}
       validationSchema={galleryschema}
+      validateOnMount
     >
       {({
         handleBlur,
@@ -45,6 +46,7 @@ const GalleryForm: React.FC<{
         values,
         setFieldValue,
         isSubmitting,
+        isValid,
       }) => (
         <View
           className="flex-auto h-full w-full "
@@ -92,7 +94,12 @@ const GalleryForm: React.FC<{
               />
             </View>
           </View>
-          <Button text="Finish" loading={isSubmitting} action={handleSubmit} />
+          <Button
+            text="Finish"
+            loading={isSubmitting}
+            disabled={!isValid}
+            action={handleSubmit}
+          />
         </View>
       )}
     </Formik>

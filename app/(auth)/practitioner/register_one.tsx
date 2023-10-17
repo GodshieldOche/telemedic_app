@@ -33,11 +33,9 @@ const CreateAccountPractitioner = () => {
   }
 
   return (
-    <ScrollView className="bg-white  flex-1">
-      <View className="py-6 px-4">
-        <PersonalInfo practices={practices} countries={countries} />
-      </View>
-    </ScrollView>
+    <View className="relative flex-1 bg-white">
+      <PersonalInfo practices={practices} countries={countries} />
+    </View>
   );
 };
 

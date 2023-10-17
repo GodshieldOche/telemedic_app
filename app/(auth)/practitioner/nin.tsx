@@ -6,7 +6,10 @@ import * as yup from "yup";
 import Input from "../../../components/Formik/Input";
 import Button from "../../../components/Common/Button";
 import useAppDispatch, { useAppSelector } from "../../../hooks/useDispatch";
-import { setPractitionerRegisterData } from "../../../redux/slices/practitioner/practitioner_signup";
+import {
+  setPractitionerFiles,
+  setPractitionerRegisterData,
+} from "../../../redux/slices/practitioner/practitioner_signup";
 import { router } from "expo-router";
 
 const signinSchema = yup.object().shape({
@@ -29,6 +32,14 @@ const NIN = () => {
       }}
       onSubmit={async ({ nin }, { setSubmitting }) => {
         dispatch(
+          setPractitionerFiles({
+            data: {
+              driving_licence: undefined,
+              international_passport: undefined,
+            },
+          })
+        );
+        dispatch(
           setPractitionerRegisterData({
             data: {
               nin,
@@ -39,6 +50,7 @@ const NIN = () => {
         router.push("/practitioner/register_three");
       }}
       validationSchema={signinSchema}
+      validateOnMount
     >
       {({
         setFieldValue,
@@ -48,6 +60,7 @@ const NIN = () => {
         touched,
         values,
         isSubmitting,
+        isValid,
       }) => (
         <View className="flex-1 py-6 px-4 bg-white space-y-12">
           <View className="justify-center items-center space-y-2 px-5 ">
@@ -88,6 +101,7 @@ const NIN = () => {
               action={handleSubmit}
               text="Confirm"
               loading={isSubmitting}
+              disabled={!isValid}
             />
           </View>
         </View>

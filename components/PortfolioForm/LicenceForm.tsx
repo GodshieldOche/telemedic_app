@@ -1,18 +1,33 @@
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Input from "../Formik/Input";
 import { Licence } from "../../utils/interface";
-import DateTime from "../Formik/Date";
 import Button from "../Common/Button";
 import DocPicker from "../Formik/DocumentPicker";
+import Select from "../Formik/Picker";
+import { getYears } from "../../utils/helper";
+import { months } from "../../utils/data";
+import { globalStyles } from "../../constants/styles";
 
 const certificateSchema = yup.object().shape({
   name: yup.string().required("This field is required"),
   description: yup.string().required("This field is required"),
-  from: yup.date().required("This field is required"),
-  to: yup.date().required("This field is required"),
+  from_year: yup.number().required("This field is required"),
+  from_month: yup.number().required("This field is required"),
+  to_year: yup
+    .number()
+    .required("This field is required")
+    .test(
+      "is-greater",
+      "To year must be greater than the from year",
+      function (value) {
+        const { from_year } = this.parent;
+        return value > from_year;
+      }
+    ),
+  to_month: yup.number().required("This field is required"),
   licence_doc: yup.object().required("This field is required"),
 });
 
@@ -22,21 +37,34 @@ const LicenceForm: React.FC<{
 }> = ({ data, handleSubmit }) => {
   const { name, licence_doc, from, to, description } = data;
 
-  const initialValues: Licence = {
+  const initialValues = {
     name,
-    from: from ? new Date(from) : from,
-    to: to ? new Date(to) : to,
+    from_month: from ? new Date(from).getMonth() + 1 : undefined,
+    from_year: from ? new Date(from).getFullYear() : undefined,
+    to_month: to ? new Date(to).getMonth() + 1 : undefined,
+    to_year: to ? new Date(to).getFullYear() : undefined,
     licence_doc,
     description,
   };
+
+  const to_years = getYears(new Date().getFullYear() + 20).reverse();
+  const years = getYears().reverse();
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values) => {
-        handleSubmit(values);
+        const body: Licence = {
+          name: values.name,
+          description: values.description,
+          from: new Date(`${values.from_year}-${values.from_month}-1`),
+          to: new Date(`${values.to_year}-${values.to_month}-1`),
+          licence_doc: values.licence_doc,
+        };
+        handleSubmit(body);
       }}
       validationSchema={certificateSchema}
+      validateOnMount
     >
       {({
         handleBlur,
@@ -46,6 +74,7 @@ const LicenceForm: React.FC<{
         values,
         setFieldValue,
         isSubmitting,
+        isValid,
       }) => (
         <View
           className="flex-1 w-full "
@@ -91,26 +120,104 @@ const LicenceForm: React.FC<{
                 type="none"
                 autoCapitalize="sentences"
               />
-              <DateTime
-                label="From"
-                name="from"
-                value={values.from}
-                errors={errors.from}
-                touched={touched.from}
-                handleChange={setFieldValue}
-                handleBlur={handleBlur}
-                placeholder="00/00/0000"
-              />
-              <DateTime
-                label="To"
-                name="to"
-                value={values.to}
-                errors={errors.to}
-                touched={touched.to}
-                handleChange={setFieldValue}
-                handleBlur={handleBlur}
-                placeholder="00/00/0000"
-              />
+
+              {/* From _to */}
+              <Text
+                className="text-base text-secondaryBlack pl-2"
+                style={globalStyles.semibold_text}
+              >
+                From
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  columnGap: 8,
+                  alignItems: "flex-start",
+                }}
+              >
+                <View className="w-[50%]">
+                  <Select
+                    label="Month"
+                    name="from_month"
+                    value={values.from_month}
+                    errors={errors.from_month}
+                    touched={touched.from_month}
+                    handleChange={setFieldValue}
+                    handleBlur={handleBlur}
+                    placeholder="Select Month"
+                    items={months.map((month) => ({
+                      label: month.name,
+                      value: month.number,
+                    }))}
+                  />
+                </View>
+                <View className="w-[50%]">
+                  <Select
+                    label="Year"
+                    name="from_year"
+                    value={values.from_year}
+                    errors={errors.from_year}
+                    touched={touched.from_year}
+                    handleChange={setFieldValue}
+                    handleBlur={handleBlur}
+                    placeholder="Select Year"
+                    items={years.map((year) => ({
+                      label: year.toString(),
+                      value: year,
+                    }))}
+                  />
+                </View>
+              </View>
+
+              <Text
+                className="text-base text-secondaryBlack pl-2"
+                style={globalStyles.semibold_text}
+              >
+                To
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  columnGap: 8,
+                  alignItems: "flex-start",
+                }}
+              >
+                <View className="w-[50%]">
+                  <Select
+                    label="Month"
+                    name="to_month"
+                    value={values.to_month}
+                    errors={errors.to_month}
+                    touched={touched.to_month}
+                    handleChange={setFieldValue}
+                    handleBlur={handleBlur}
+                    placeholder="Select Month"
+                    items={months.map((month) => ({
+                      label: month.name,
+                      value: month.number,
+                    }))}
+                  />
+                </View>
+                <View className="w-[50%]">
+                  <Select
+                    label="Year"
+                    name="to_year"
+                    value={values.to_year}
+                    errors={errors.to_year}
+                    touched={touched.to_year}
+                    handleChange={setFieldValue}
+                    handleBlur={handleBlur}
+                    placeholder="Select Year"
+                    items={to_years.map((year) => ({
+                      label: year.toString(),
+                      value: year,
+                    }))}
+                  />
+                </View>
+              </View>
+              {/* From _to */}
 
               <DocPicker
                 label="Licence"
@@ -124,7 +231,12 @@ const LicenceForm: React.FC<{
               />
             </View>
           </View>
-          <Button text="Save" loading={isSubmitting} action={handleSubmit} />
+          <Button
+            text="Save"
+            loading={isSubmitting}
+            disabled={!isValid}
+            action={handleSubmit}
+          />
         </View>
       )}
     </Formik>

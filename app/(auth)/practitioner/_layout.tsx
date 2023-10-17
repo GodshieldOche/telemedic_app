@@ -83,15 +83,15 @@ const PractitionerAuthLayout = () => {
       <Stack.Screen name="licence" options={{ headerShown: false }} />
       <Stack.Screen name="education" options={{ headerShown: false }} />
       <Stack.Screen name="experience" options={{ headerShown: false }} />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="verify"
         options={{
           ...options,
           title: "Verification",
           headerBackVisible: true,
         }}
-      /> */}
-      {/* <Stack.Screen name="success" options={{ headerShown: false }} /> */}
+      />
+      <Stack.Screen name="success" options={{ headerShown: false }} />
     </Stack>
   );
 };

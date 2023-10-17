@@ -51,7 +51,7 @@ const ProvidersOptions = () => {
       })
     );
 
-    router.push("/(auth)/practitioner/register_two");
+    router.push("/(auth)/practitioner/register_one");
   };
 
   return (

@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import React, { useEffect } from "react";
-import { ScrollView } from "react-native-gesture-handler";
 import useAppDispatch, { useAppSelector } from "../../../hooks/useDispatch";
 import Loader from "../../../components/Common/Loader";
 import { getCountries } from "../../../redux/slices/app/country";
@@ -29,11 +28,9 @@ const CreateAccountUser = () => {
   }
 
   return (
-    <ScrollView className="bg-white relative  flex-1">
-      <View className="py-6 px-4">
-        <ProfileInfo countries={data} handleRegister={handleRegister} />
-      </View>
-    </ScrollView>
+    <View className="bg-white relative  flex-1">
+      <ProfileInfo countries={data} handleRegister={handleRegister} />
+    </View>
   );
 };
 

@@ -4,6 +4,7 @@ import useAppDispatch from "../../../hooks/useDispatch";
 import { options } from "../../../constants/styles";
 import { resetFacilityRegisterData } from "../../../redux/slices/facility/facility_signup";
 import { resetFacilityPorfolioState } from "../../../redux/slices/facility/facility_portfolio";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FacilityAuthLayout = () => {
   const dispatch = useAppDispatch();

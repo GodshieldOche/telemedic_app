@@ -37,7 +37,9 @@ const CheckBox: React.FC<Props> = ({
           value={value}
           onBlur={handleBlur(name)}
           onValueChange={(e) => handleChange(name, e)}
-          className="border border-primaryOne"
+          className="border rounded-[2.5px] w-5 h-5 border-primaryOne"
+          size={20}
+          borderRadius={2.5}
         />
         {label}
       </View>

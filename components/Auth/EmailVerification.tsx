@@ -57,6 +57,7 @@ const EmailVerification: React.FC<Props> = ({
             text="Verify Account"
             action={handleVerify}
             loading={loading}
+            disabled={!value}
           />
           <View className="w-full flex-row items-center space-x-1 justify-center ">
             <Text style={[globalStyles.regular_text, { fontSize: 16 }]}>

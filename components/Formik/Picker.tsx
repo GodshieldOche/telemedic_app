@@ -85,7 +85,7 @@ const Select: React.FC<Props> = ({
         labelStyle={[
           globalStyles.meduim_text,
           {
-            paddingLeft: 8,
+            paddingLeft: 16,
             fontSize: 16,
             color: "#2B2B2B",
           },

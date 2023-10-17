@@ -20,11 +20,9 @@ const CreateAccountUser = () => {
   }
 
   return (
-    <ScrollView className="bg-white  flex-1">
-      <View className="py-6 px-4">
-        <BasicInfo countries={data} />
-      </View>
-    </ScrollView>
+    <View className="bg-white relative  flex-1">
+      <BasicInfo countries={data} />
+    </View>
   );
 };
 
