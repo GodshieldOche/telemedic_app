@@ -1,10 +1,11 @@
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Button from "../Common/Button";
 import MediaPicker from "../Formik/MediaPicker";
 import { Gallery } from "../../utils/interface";
+import { globalStyles } from "../../constants/styles";
 
 const galleryschema = yup.object().shape({
   images: yup
@@ -62,6 +63,12 @@ const GalleryForm: React.FC<{
               rowGap: 32,
             }}
           >
+            <View>
+              <Text style={[globalStyles.regular_text, { fontSize: 16 }]}>
+                These are the image(s) and video(s) a patient would see
+                concerning you and what you do
+              </Text>
+            </View>
             <View
               style={{
                 flexDirection: "column",

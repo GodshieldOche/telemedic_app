@@ -86,7 +86,7 @@ const MediaPicker: React.FC<Props> = ({
         </Text>
       </Pressable>
 
-      {values.length > 0 && (
+      {values.length > 0 && values[0] && (
         <FlatList
           data={values}
           renderItem={({ item, index }) => (
@@ -103,7 +103,6 @@ const MediaPicker: React.FC<Props> = ({
                   useNativeControls
                   resizeMode={ResizeMode.CONTAIN}
                   shouldPlay={false}
-                  // onPlaybackStatusUpdate={(status) => setStatus(() => status)}
                 />
               ) : (
                 <Image
@@ -138,28 +137,6 @@ const MediaPicker: React.FC<Props> = ({
         />
       )}
 
-      {/* {values.map(
-        (item, index) =>
-          item && (
-            <View
-              className="py-2 flex flex-row justify-between items-center"
-              key={index}
-            >
-              <Text>{item.fileName}</Text>
-              <MaterialCommunityIcons
-                name="delete-outline"
-                size={24}
-                color="black"
-                onPress={() => {
-                  const updatedValue = multiple
-                    ? values.filter((_, i) => i !== index)
-                    : undefined;
-                  handleChange(name, updatedValue);
-                }}
-              />
-            </View>
-          )
-      )} */}
       {touched && errors && (
         <Text
           style={[

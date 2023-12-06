@@ -6,7 +6,7 @@ import Paginator from "../components/Onboarding/Paginator";
 import Button from "../components/Common/Button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/Common/Loader";
-import { Redirect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { globalStyles } from "../constants/styles";
 
 const Onboarding = () => {
@@ -45,7 +45,7 @@ const Onboarding = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      router.replace("/(auth)/");
+      router.replace("/(user)/(tabs)/");
     }
   };
 
@@ -144,16 +144,19 @@ const Onboarding = () => {
           <Paginator data={slides} scrollX={scrollX} />
           <View className="max-w-[255px] flex flex-col space-y-3">
             <Animated.Text
-              className="text-3xl leading-[40px] text-center text-mainBlack "
+              className="text-[28px] leading-[40px] text-center text-mainBlack "
               style={[globalStyles.bold_text, { opacity: titleOpacity }]}
             >
               {slides[currentIndex]?.title}
             </Animated.Text>
             <Animated.Text
               className="text-lg text-secondaryBlack text-center "
-              style={{
-                opacity: descriptionOpacity,
-              }}
+              style={[
+                globalStyles.regular_text,
+                {
+                  opacity: descriptionOpacity,
+                },
+              ]}
             >
               {slides[currentIndex]?.description}
             </Animated.Text>

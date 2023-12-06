@@ -47,7 +47,7 @@ const CertificationLicence = () => {
                   <View className="flex flex-row space-x-4 ">
                     <AntDesign
                       name="edit"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         router.push(`/(auth)/facility/certification/${index}`)
@@ -55,7 +55,7 @@ const CertificationLicence = () => {
                     />
                     <MaterialCommunityIcons
                       name="delete-outline"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         dispatch(deleteFromFacilityCertifications({ index }))
@@ -67,7 +67,7 @@ const CertificationLicence = () => {
                   style={[
                     globalStyles.regular_text,
                     {
-                      fontSize: 14,
+                      fontSize: 13,
                     },
                   ]}
                 >
@@ -96,7 +96,7 @@ const CertificationLicence = () => {
                   <View className="flex flex-row space-x-4 ">
                     <AntDesign
                       name="edit"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         router.push(`/(auth)/facility/licence/${index}`)
@@ -104,7 +104,7 @@ const CertificationLicence = () => {
                     />
                     <MaterialCommunityIcons
                       name="delete-outline"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         dispatch(deleteFromFacilityLicences({ index }))
@@ -117,7 +117,7 @@ const CertificationLicence = () => {
                     style={[
                       globalStyles.regular_text,
                       {
-                        fontSize: 14,
+                        fontSize: 13,
                       },
                     ]}
                   >
@@ -127,7 +127,7 @@ const CertificationLicence = () => {
                     style={[
                       globalStyles.regular_text,
                       {
-                        fontSize: 14,
+                        fontSize: 13,
                       },
                     ]}
                   >

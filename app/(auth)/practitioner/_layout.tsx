@@ -35,6 +35,14 @@ const PractitionerAuthLayout = () => {
         name="register_three"
         options={{
           ...options,
+          title: "More Information",
+          headerBackVisible: true,
+        }}
+      />
+      <Stack.Screen
+        name="register_four"
+        options={{
+          ...options,
           title: "KYC Verification",
           headerBackVisible: true,
         }}
@@ -76,6 +84,46 @@ const PractitionerAuthLayout = () => {
         options={{
           ...options,
           title: "Driving Licence",
+          headerBackVisible: true,
+        }}
+      />
+      <Stack.Screen
+        name="about"
+        options={{
+          ...options,
+          title: "About",
+          headerBackVisible: true,
+        }}
+      />
+      <Stack.Screen
+        name="images"
+        options={{
+          ...options,
+          title: "Banner & Display Image",
+          headerBackVisible: true,
+        }}
+      />
+      <Stack.Screen
+        name="gallery"
+        options={{
+          ...options,
+          title: "Gallery",
+          headerBackVisible: true,
+        }}
+      />
+      <Stack.Screen
+        name="hourly_rate"
+        options={{
+          ...options,
+          title: "Hourly Rate",
+          headerBackVisible: true,
+        }}
+      />
+      <Stack.Screen
+        name="languages"
+        options={{
+          ...options,
+          title: "Languages",
           headerBackVisible: true,
         }}
       />

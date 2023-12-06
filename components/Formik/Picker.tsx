@@ -6,7 +6,7 @@ import { Picker, PickerModes } from "react-native-ui-lib";
 interface Props {
   label: string;
   name: string;
-  value: string | number | undefined;
+  value: any;
   placeholder: string;
   handleChange: any;
   errors: any;
@@ -20,7 +20,7 @@ interface Props {
     value: string | number;
   }[];
   setValue?: any;
-  mode?: PickerModes;
+  mode?: "MULTI" | "SINGLE";
 }
 
 const Select: React.FC<Props> = ({
@@ -61,7 +61,7 @@ const Select: React.FC<Props> = ({
           handleChange(name, e);
           setValue && setValue(e);
         }}
-        mode={mode as any}
+        mode={PickerModes[mode]}
         onBlur={handleBlur(name)}
         useWheelPicker={useWheel}
         useSafeArea
@@ -102,6 +102,10 @@ const Select: React.FC<Props> = ({
               (prev = items.filter((item) => item.label.includes(value)))
           )
         }
+        placeholderTextColor="#858C94"
+        searchStyle={{
+          placeholderTextColor: "#858C94",
+        }}
       />
 
       {touched && errors && (

@@ -11,7 +11,7 @@ const success = () => {
         <RegSuccess
           title="Congratulations"
           description="Our team will review the information provided. Please check your email for update on your account status"
-          action={() => router.replace("/(user)/")}
+          action={() => router.replace("/(user)/(tabs)/")}
         />
       </View>
     </SafeAreaView>

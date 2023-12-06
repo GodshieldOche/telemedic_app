@@ -17,6 +17,7 @@ export interface practitioner_signupState {
   resending: boolean;
   files: {
     banner_image: File | undefined | any;
+    profile_image: File | undefined | any;
     driving_licence: File | undefined | any;
     international_passport: File | undefined | any;
     kyc_image: File | undefined | any;
@@ -147,6 +148,7 @@ const initialState: practitioner_signupState = {
   files: {
     kyc_image: undefined,
     driving_licence: undefined,
+    profile_image: undefined,
     international_passport: undefined,
     banner_image: undefined,
   },
@@ -160,7 +162,9 @@ const initialState: practitioner_signupState = {
     password: "",
     phone_code: "",
     phone_no: "",
+    hourly_rate: 0,
     services: [],
+    languages: [],
     address: {
       country_id: "",
       state_id: "",

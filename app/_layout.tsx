@@ -1,7 +1,7 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   useFonts,
@@ -12,6 +12,9 @@ import {
 } from "@expo-google-fonts/nunito";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
+import * as Location from "expo-location";
+import useAppDispatch from "../hooks/useDispatch";
+import { setLocation } from "../redux/slices/app/location";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -20,6 +23,19 @@ export {
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+declare global {
+  interface String {
+    toCapitalized(): string;
+  }
+}
+
+String.prototype.toCapitalized = function () {
+  const stringArr = [...this.toLowerCase()];
+  stringArr[0] = stringArr[0].toUpperCase();
+
+  return stringArr.join("");
+};
 
 export default function RootLayout() {
   StatusBar.setBarStyle("dark-content");
@@ -46,20 +62,40 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
-}
-
-function RootLayoutNav() {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(user)" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-        </Stack>
+        <RootLayoutNav />
       </SafeAreaProvider>
     </Provider>
+  );
+}
+
+function RootLayoutNav() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    (async () => {
+      await Location.requestForegroundPermissionsAsync();
+
+      const geoCodedLocation = await Location.getCurrentPositionAsync({});
+
+      const location = await Location.reverseGeocodeAsync(
+        geoCodedLocation.coords
+      );
+
+      dispatch(setLocation({ location: location[0] }));
+    })();
+  }, []);
+
+  return (
+    <>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(user)" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+      </Stack>
+      {/* <View className="fixed top-0 left-0 bottom-0 right-0 h-full w-full bg-red-900"></View> */}
+    </>
   );
 }

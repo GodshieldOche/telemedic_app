@@ -73,7 +73,10 @@ const selfie = () => {
         <View className="space-y-3 px-5 items-center">
           {image && <Octicons name="check-circle" size={40} color="#5EC376" />}
 
-          <Text className="text-2xl " style={[globalStyles.semibold_text]}>
+          <Text
+            className="text-2xl "
+            style={[globalStyles.semibold_text, globalStyles.big_text]}
+          >
             {image ? "Nice job, Weldone" : "Take a Selfie"}
           </Text>
           <Text

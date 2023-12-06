@@ -55,6 +55,7 @@ const CreateAccountFacility = () => {
     };
     const response = await dispacth(postFacilitySignUp(body));
     if (response.error) {
+      console.log(response);
       setSubmitting(false);
       messageAlert(
         "Error",

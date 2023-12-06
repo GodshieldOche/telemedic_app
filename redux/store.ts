@@ -1,10 +1,20 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import appReducer, { appState } from "./slices/app/app";
 import userRegisterReducer, { signupState } from "./slices/user/signup";
 import userSigninReducer, { signinState } from "./slices/user/signin";
 import countryReducer, { countryState } from "./slices/app/country";
 import stateReducer, { stateState } from "./slices/app/state";
-import cityReducer, { cityState } from "./slices/app/cities";
 import degreesReducer, { degreeState } from "./slices/app/degrees";
+import languagesReducer, { languagesState } from "./slices/app/languages";
+import cityReducer, { cityState } from "./slices/app/cities";
+import resourcesReducer, { resourcesState } from "./slices/app/resources";
+import locationReducer, { locationState } from "./slices/app/location";
+import practitionersReducer, {
+  practitionersState,
+} from "./slices/app/practitioners";
+import walletReducer, { walletState } from "./slices/user/wallet";
+import facilitiesReducer, { facilitiesState } from "./slices/app/facilities";
+import userProfileReducer, { profileState } from "./slices/user/profile";
 import practitionerCategoryReducer, {
   practitionerCategoryState,
 } from "./slices/app/practitioner_category";
@@ -37,12 +47,20 @@ import practitionerGalleryReducer, {
 } from "./slices/practitioner/practitioner_gallery";
 
 const rootReducer = combineReducers({
+  app: appReducer,
   userRegister: userRegisterReducer,
   userSignin: userSigninReducer,
+  userProfile: userProfileReducer,
   country: countryReducer,
   state: stateReducer,
   city: cityReducer,
   degrees: degreesReducer,
+  languages: languagesReducer,
+  resources: resourcesReducer,
+  practitioners: practitionersReducer,
+  location: locationReducer,
+  facilities: facilitiesReducer,
+  wallet: walletReducer,
   practitionerCategory: practitionerCategoryReducer,
   facilityCategory: facilityCategoryReducer,
   facilityRegister: facilityRegisterReducer,
@@ -62,12 +80,20 @@ export const store = configureStore({
 
 // Inferred type: {app: appState, components: componentState}
 export type RootState = {
+  app: appState;
   userRegister: signupState;
   userSignin: signinState;
+  userProfile: profileState;
   country: countryState;
   state: stateState;
   city: cityState;
   degrees: degreeState;
+  languages: languagesState;
+  resources: resourcesState;
+  practitioners: practitionersState;
+  location: locationState;
+  facilities: facilitiesState;
+  wallet: walletState;
   practitionerCategory: practitionerCategoryState;
   facilityCategory: facilityCategoryState;
   facilityRegister: facility_signupState;

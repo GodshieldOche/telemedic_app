@@ -115,7 +115,10 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
                   />
 
                   <Pressable>
-                    <Text className="text-base w-full text-right">
+                    <Text
+                      className="text-base w-full text-right"
+                      style={[globalStyles.regular_text]}
+                    >
                       Forgot Password?
                     </Text>
                   </Pressable>
@@ -145,8 +148,8 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
                       </Pressable>
                     </View>
                     <Text
-                      className="text-xs text-center"
-                      style={globalStyles.regular_text}
+                      className="text-[11px] text-center"
+                      style={globalStyles.semibold_text}
                     >
                       By continuing, you acknowledge that you have read and
                       understood, and agree to Terms of service and Privacy

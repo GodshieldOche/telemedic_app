@@ -55,6 +55,12 @@ export const globalStyles = StyleSheet.create({
   focusCell: {
     borderColor: "#8863F2",
   },
+  big_text: {
+    fontSize: 23,
+  },
+  normal_text: {
+    fontSize: 16,
+  },
 });
 
 export const options: any = {
@@ -62,7 +68,7 @@ export const options: any = {
   headerShadowVisible: false,
   headerTitleStyle: {
     fontFamily: "Nunito_Semibold",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "600",
     color: "#2B2B2B",
   },

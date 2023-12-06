@@ -49,7 +49,7 @@ const DrivingLicence = () => {
         },
       })
     );
-    router.push("/practitioner/register_three");
+    router.push("/practitioner/register_four");
   };
 
   return (

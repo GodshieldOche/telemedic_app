@@ -2,11 +2,20 @@ import { View, Animated, useWindowDimensions } from "react-native";
 import React from "react";
 
 interface Props {
-  data: { id: string; title: string; description: string; image: any }[];
+  data: any[];
   scrollX: Animated.Value;
+  backgroundColor?: string;
+  range?: number[];
+  height?: number;
 }
 
-const Paginator: React.FC<Props> = ({ data, scrollX }) => {
+const Paginator: React.FC<Props> = ({
+  data,
+  scrollX,
+  range = [19, 37, 19],
+  backgroundColor = "#8863F2",
+  height = 5,
+}) => {
   const { width } = useWindowDimensions();
   return (
     <View className="flex flex-row gap-x-2 h-auto ">
@@ -15,19 +24,19 @@ const Paginator: React.FC<Props> = ({ data, scrollX }) => {
 
         const dothWidth = scrollX.interpolate({
           inputRange,
-          outputRange: [19, 37, 19],
+          outputRange: range,
           extrapolate: "clamp",
         });
 
         const opacity = scrollX.interpolate({
           inputRange,
-          outputRange: [0.3, 1, 0.3],
+          outputRange: [0.5, 1, 0.5],
           extrapolate: "clamp",
         });
         return (
           <Animated.View
-            className="h-[5px] rounded-[5px] bg-primaryOne "
-            style={{ width: dothWidth, opacity }}
+            className=" rounded-[5px] "
+            style={{ width: dothWidth, opacity, backgroundColor, height }}
             key={i.toString()}
           />
         );

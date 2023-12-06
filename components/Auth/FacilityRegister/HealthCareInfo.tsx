@@ -400,7 +400,7 @@ const HealthCareInfo: React.FC<{
                 label={
                   <View className="w-full flex-row items-center ">
                     <Text style={[globalStyles.regular_text, { fontSize: 16 }]}>
-                      I have read and accepted{" "}
+                      I accept the{" "}
                     </Text>
                     <Pressable
                       onPress={() => router.push("/(auth)/terms_and_condtions")}
@@ -409,7 +409,7 @@ const HealthCareInfo: React.FC<{
                         className="text-primaryOne "
                         style={[globalStyles.bold_text, { fontSize: 16 }]}
                       >
-                        the terms & conditions
+                        terms & conditions
                       </Text>
                     </Pressable>
                   </View>

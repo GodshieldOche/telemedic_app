@@ -29,7 +29,7 @@ const Input: React.FC<Props> = ({
   value,
   handleChange,
   handleBlur,
-  disabled,
+  disabled = false,
   errors,
   touched,
   autoCapitalize = "none",
@@ -43,7 +43,7 @@ const Input: React.FC<Props> = ({
   }, []);
 
   return (
-    <View className="w-full  flex space-y-2">
+    <View className="w-full flex space-y-2">
       <Text
         className="text-base text-secondaryBlack pl-4"
         style={globalStyles.meduim_text}
@@ -53,7 +53,7 @@ const Input: React.FC<Props> = ({
       <View className="w-full relative">
         <TextInput
           placeholder={placeholder}
-          className="focus:border-primaryOne/60"
+          className="focus:border-primaryOne/60  "
           style={[
             globalStyles.regular_text,
             {
@@ -73,10 +73,10 @@ const Input: React.FC<Props> = ({
           textContentType={type}
           inputMode={mode}
           secureTextEntry={shouldHide}
+          placeholderTextColor="#858C94"
+          editable={!disabled}
         />
-        {["password", "confirm_password", "password_confirmation"].includes(
-          name
-        ) && (
+        {type === "password" && (
           <View className="absolute h-full top-0 bottom-0 right-4 flex flex-col justify-center">
             {shouldHide ? (
               <Feather

@@ -20,7 +20,7 @@ const AuthLayout = () => {
   }
 
   if (token) {
-    return <Redirect href="/(user)/" />;
+    return <Redirect href="/(user)/(tabs)/" />;
   }
   return (
     <Stack>

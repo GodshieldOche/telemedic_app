@@ -303,14 +303,14 @@ const ProfileInfo: React.FC<{
                 label={
                   <View className="w-full flex-row items-center ">
                     <Text style={[globalStyles.regular_text, { fontSize: 16 }]}>
-                      I have read and accepted{" "}
+                      I accept the{" "}
                     </Text>
                     <Pressable onPress={() => ""}>
                       <Text
                         className="text-primaryOne "
                         style={[globalStyles.bold_text, { fontSize: 16 }]}
                       >
-                        the terms & conditions
+                        terms & conditions
                       </Text>
                     </Pressable>
                   </View>

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export type error = {
@@ -9,6 +9,10 @@ export type error = {
 export interface practitionerGalleryState {
   loading: boolean;
   data: object;
+  media: {
+    images: any[];
+    videos: any[];
+  };
   error: object | null;
 }
 
@@ -38,6 +42,10 @@ export const postAddToPractitionerGallery: any = createAsyncThunk(
 const initialState: practitionerGalleryState = {
   loading: true,
   data: {},
+  media: {
+    images: [],
+    videos: [],
+  },
   error: null,
 };
 
@@ -47,6 +55,20 @@ export const practitioner_gallerySlice = createSlice({
   reducers: {
     resetPractitionerGallery: (state) => {
       return (state = initialState);
+    },
+    setPractitionerMedia: (
+      state: practitionerGalleryState,
+      action: PayloadAction<{
+        data: {
+          images: any[];
+          videos: any[];
+        };
+      }>
+    ) => {
+      return {
+        ...state,
+        media: action.payload.data,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -71,6 +93,7 @@ export const practitioner_gallerySlice = createSlice({
 });
 
 // // Other code such as selectors can use the imported `RootState` type
-export const { resetPractitionerGallery } = practitioner_gallerySlice.actions;
+export const { resetPractitionerGallery, setPractitionerMedia } =
+  practitioner_gallerySlice.actions;
 
 export default practitioner_gallerySlice.reducer;

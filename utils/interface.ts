@@ -1,4 +1,11 @@
 import { ImagePickerAsset } from "expo-image-picker";
+import { LinkProps } from "expo-router";
+import { StyleProp, ViewStyle } from "react-native";
+
+export type Modal = {
+  active: boolean;
+  type: "DeleteUser" | "LogOutUser" | "Error" | "Success";
+};
 
 export type Country = {
   name: string;
@@ -12,6 +19,21 @@ export type Address = {
   country_id: string | number;
   state_id: string | number;
   city_id: string | number;
+  postal_code: string;
+  street_line_one: string;
+};
+
+export type AddressWithID = {
+  id: string;
+  country: {
+    name: string;
+  };
+  state: {
+    name: string;
+  };
+  city: {
+    name: string;
+  };
   postal_code: string;
   street_line_one: string;
 };
@@ -32,6 +54,13 @@ export type Categorish = {
   id: string;
   name: string;
   description: string;
+};
+
+export type Language = {
+  id: string;
+  name: string;
+  code: string;
+  native: string;
 };
 
 export type FacilityRegisterData = {
@@ -55,11 +84,13 @@ export type PractitionerRegisterData = {
   description: string;
   practitioner_category_id: string;
   practitioner_practice_id: string;
+  hourly_rate: number;
   phone_code: string;
   phone_no: string;
   nin?: string;
   services: string[];
   address: Address;
+  languages: Language[];
 };
 
 export type Licence = {
@@ -102,9 +133,175 @@ export type Gallery = {
   videos: ImagePickerAsset[];
 };
 
+export type BannerProfile = {
+  banner_image: ImagePickerAsset;
+  profile_image: ImagePickerAsset;
+};
+
 export type FaceDetectionChecks = {
   isFace: boolean;
   isStraight: boolean;
   isSmiling: boolean;
   isEyeShut: boolean;
 };
+
+export interface User {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  gender: string;
+  dob: Date | undefined | any;
+  phone_code: string;
+  phone_no: string;
+  address: AddressWithID;
+}
+
+export interface Resource {
+  id: string;
+  name: string;
+  tag: string;
+  rating: number;
+  hourly_rate: number;
+  type: "practitioner" | "facility";
+  display_picture: string;
+  address: AddressWithID;
+}
+
+export interface Service {
+  text: string;
+  icon: React.JSX.Element;
+  route: LinkProps<string>["href"];
+  iconContainerStyles?: StyleProp<ViewStyle>;
+  params?: any;
+}
+
+export interface Media {
+  id: string;
+  type: string;
+  url: string;
+  content_type: string;
+  size: number;
+}
+
+export interface Practitioner {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  description: string;
+  phone_code: string;
+  phone_no: string;
+  practice: string;
+  services: string[];
+  address: AddressWithID;
+  banner_image: string;
+  profile_image: string;
+  hourly_rate: number;
+  certification: {
+    date: string;
+    description: string;
+    id: string;
+    name: string;
+  };
+  education: {
+    degree: string;
+    field_of_study: string;
+    from: string;
+    id: string;
+    institution: string;
+    present: boolean;
+    to: string;
+  };
+  experience: {
+    id: string;
+    title: string;
+    organisation: string;
+    description: string;
+    present: boolean;
+    from: string;
+    to: string;
+  };
+  licence: {
+    description: string;
+    from: string;
+    id: string;
+    name: string;
+    to: string;
+  };
+  languages: Language[];
+  videos: Media[];
+  images: Media[];
+}
+
+export interface Facility {
+  id: string;
+  name: string;
+  email: string;
+  description: string;
+  phone_code: string;
+  phone_no: string;
+  type: string;
+  services: string[];
+  address: AddressWithID;
+  certification: {
+    date: string;
+    description: string;
+    id: string;
+    name: string;
+  };
+  education: {
+    degree: string;
+    field_of_study: string;
+    from: string;
+    id: string;
+    institution: string;
+    present: boolean;
+    to: string;
+  };
+  experience: {
+    id: string;
+    title: string;
+    organisation: string;
+    description: string;
+    present: boolean;
+    from: string;
+    to: string;
+  };
+  licence: {
+    description: string;
+    from: string;
+    id: string;
+    name: string;
+    to: string;
+  };
+  media: Media[];
+}
+
+export interface AllOnWallet {
+  wallet: {
+    id: string;
+    main_balance: number;
+    locked_balance: number;
+    currency: string;
+    symbol: string;
+  };
+  accounts: {
+    id: string;
+    account_number: string;
+    bank_name: string;
+    account_name: string;
+  }[];
+  transactions: {
+    title: string;
+    name: string;
+    type: "inflow" | "outflow";
+    method: string;
+    date_initialized: string;
+    date_completed: string;
+    amount: number;
+    status: string;
+    currency: string;
+    symbol: string;
+  }[];
+}

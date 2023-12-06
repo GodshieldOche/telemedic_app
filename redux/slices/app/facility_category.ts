@@ -38,12 +38,16 @@ export const getFacilityCategories: any = createAsyncThunk(
 
 export const getTypesOnFacilityCategory: any = createAsyncThunk(
   `facility_category/getTypesOnFacilityCategory`,
-  async (id, { rejectWithValue }) => {
+  async (
+    { id, signal }: { id: string; signal: AbortSignal },
+    { rejectWithValue }
+  ) => {
     const url = process.env.EXPO_PUBLIC_API_URL;
     try {
       const { data }: any = await axios.get(
         `${url}/api/app/facilities/categories/${id}/types`,
         {
+          signal,
           headers: {
             "Content-Type": "application/json",
           },

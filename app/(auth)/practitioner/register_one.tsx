@@ -24,8 +24,20 @@ const CreateAccountPractitioner = () => {
       router.push("/(auth)/providers_options");
     }
 
-    dispatch(getPracticesOnPractitionerCategory(practitioner_category_id));
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    dispatch(
+      getPracticesOnPractitionerCategory({
+        id: practitioner_category_id,
+        signal,
+      })
+    );
     dispatch(getCountries());
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   if (loading) {

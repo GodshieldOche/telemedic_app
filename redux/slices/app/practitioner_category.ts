@@ -17,12 +17,13 @@ export interface practitionerCategoryState {
 
 export const getPractitionerCategories: any = createAsyncThunk(
   `practitioner_category/getPractitionerCategories`,
-  async (obj, { rejectWithValue }) => {
+  async (signal: AbortSignal, { rejectWithValue }) => {
     const url = process.env.EXPO_PUBLIC_API_URL;
     try {
       const { data }: any = await axios.get(
         `${url}/api/app/practitioners/categories`,
         {
+          signal,
           headers: {
             "Content-Type": "application/json",
           },
@@ -38,12 +39,16 @@ export const getPractitionerCategories: any = createAsyncThunk(
 
 export const getPracticesOnPractitionerCategory: any = createAsyncThunk(
   `practitioner_category/getPracticesOnPractitionerCategory`,
-  async (id, { rejectWithValue }) => {
+  async (
+    { id, signal }: { id: string; signal: AbortSignal },
+    { rejectWithValue }
+  ) => {
     const url = process.env.EXPO_PUBLIC_API_URL;
     try {
       const { data }: any = await axios.get(
         `${url}/api/app/practitioners/categories/${id}/practices`,
         {
+          signal,
           headers: {
             "Content-Type": "application/json",
           },

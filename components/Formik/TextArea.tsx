@@ -53,7 +53,7 @@ const TextArea: React.FC<Props> = ({
               borderColor: "#DADEE3",
               padding: Platform.OS === "ios" ? 16 : 14,
               fontSize: 16,
-              paddingTop: Platform.OS === "ios" ? 16 : -40,
+              paddingTop: Platform.OS === "ios" ? 16 : 14,
               height: 100,
               borderRadius: 8,
               color: "#2B2B2B",
@@ -69,6 +69,8 @@ const TextArea: React.FC<Props> = ({
           autoCapitalize={autoCapitalize}
           textContentType={type}
           inputMode={mode}
+          textAlignVertical="top"
+          placeholderTextColor="#858C94"
         />
       </View>
       {touched && errors && (

@@ -26,7 +26,6 @@ const practitionerSignupSchema = yup.object().shape({
     .array(yup.string())
     .min(1, "This field must have at least one items")
     .required("This field is required"),
-  description: yup.string().required("This field is required"),
   phone_code: yup.string().required("Required"),
   phone_no: yup
     .string()
@@ -63,7 +62,6 @@ interface practitionerSignupValues {
   password: string;
   first_name: string;
   last_name: string;
-  description: string;
   practitioner_practice_id: string;
   phone_code: string;
   phone_no: string;
@@ -98,7 +96,6 @@ const PersonalInfo: React.FC<{
     first_name,
     last_name,
     practitioner_practice_id,
-    description,
     services,
     email,
     phone_no,
@@ -146,7 +143,6 @@ const PersonalInfo: React.FC<{
           last_name: values.last_name,
           email: values.email,
           practitioner_practice_id: values.practitioner_practice_id,
-          description: values.description,
           services: values.services,
           phone_code: values.phone_code,
           phone_no: values.phone_no,
@@ -252,18 +248,6 @@ const PersonalInfo: React.FC<{
                   handleChange={setFieldValue}
                   handleBlur={handleBlur}
                   placeholder="Type in Service and Hit enter"
-                  type="none"
-                  autoCapitalize="sentences"
-                />
-                <TextArea
-                  label="Description"
-                  name="description"
-                  value={values.description}
-                  errors={errors.description}
-                  touched={touched.description}
-                  handleChange={setFieldValue}
-                  handleBlur={handleBlur}
-                  placeholder="Description"
                   type="none"
                   autoCapitalize="sentences"
                 />
@@ -419,7 +403,7 @@ const PersonalInfo: React.FC<{
                 label={
                   <View className="w-full flex-row items-center ">
                     <Text style={[globalStyles.regular_text, { fontSize: 16 }]}>
-                      I have read and accepted{" "}
+                      I accept the{" "}
                     </Text>
                     <Pressable
                       onPress={() => router.push("/(auth)/terms_and_condtions")}
@@ -428,7 +412,7 @@ const PersonalInfo: React.FC<{
                         className="text-primaryOne "
                         style={[globalStyles.bold_text, { fontSize: 16 }]}
                       >
-                        the terms & conditions
+                        terms & conditions
                       </Text>
                     </Pressable>
                   </View>

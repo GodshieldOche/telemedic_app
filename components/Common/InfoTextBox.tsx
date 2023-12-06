@@ -15,13 +15,13 @@ const InfoTextBox: React.FC<Props> = ({ text, action, checked = false }) => {
       onPress={action}
       className="px-6 py-4 bg-white rounded-lg flex flex-row items-center justify-between"
     >
-      <Text className="text-lg" style={[globalStyles.semibold_text]}>
+      <Text className="text-base" style={[globalStyles.semibold_text]}>
         {text}
       </Text>
       {checked ? (
-        <Ionicons name="checkmark-circle" size={26} color="#5EC376" />
+        <Ionicons name="checkmark-circle" size={24} color="#5EC376" />
       ) : (
-        <MaterialIcons name="info" size={26} color="#D68E04" />
+        <MaterialIcons name="info" size={24} color="#D68E04" />
       )}
     </Pressable>
   );

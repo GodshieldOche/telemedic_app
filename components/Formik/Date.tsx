@@ -67,6 +67,7 @@ const DateTime: React.FC<Props> = ({
           rowGap: Platform.OS === "ios" ? 10 : 7,
           height: 85,
         }}
+        placeholderTextColor="#858C94"
       />
       {touched && errors && (
         <Text

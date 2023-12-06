@@ -32,7 +32,7 @@ const SignUpOptions: React.FC<{ handleSignIn: () => void }> = ({
           style={{
             flex: 1,
             flexDirection: "column",
-            rowGap: 32,
+            rowGap: 24,
           }}
         >
           <IconTextBox

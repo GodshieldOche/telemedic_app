@@ -1,76 +1,75 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Redirect, Tabs } from "expo-router";
-import { Pressable, useColorScheme } from "react-native";
-
-import Colors from "../../constants/styles";
-import { useEffect, useState } from "react";
-import { getSecureValueFor } from "../../utils/helper";
+import { Redirect, Stack } from "expo-router";
+import { useEffect } from "react";
+import { deleteSecure, getSecureValueFor } from "../../utils/helper";
 import Loader from "../../components/Common/Loader";
+import useAppDispatch, { useAppSelector } from "../../hooks/useDispatch";
+import { getCurrentUserProfile } from "../../redux/slices/user/profile";
+import { options } from "../../constants/styles";
+import axios from "axios";
+import { router } from "expo-router";
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+axios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  async function (error) {
+    if (error.response?.status === 401) {
+      await deleteSecure("userToken");
+      router.push("/(auth)/");
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState<string | null>(null);
+  const { data, loading } = useAppSelector((state) => state.userProfile);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getSecureValueFor("userToken").then((token) => {
-      setToken(token);
-      setLoading(false);
-    });
+    (async () => {
+      const token = await getSecureValueFor("userToken");
+      await dispatch(getCurrentUserProfile(token));
+    })();
   }, []);
 
-  if (loading) {
+  if (loading || !data) {
     return <Loader />;
   }
 
-  if (!token) {
-    return <Redirect href="/(auth)/" />;
-  }
-
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-      }}
-    >
-      <Tabs.Screen
-        name="index"
+    <Stack>
+      <Stack.Screen
+        name="(tabs)"
         options={{
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? "light"].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          headerShown: false,
         }}
       />
-      <Tabs.Screen
-        name="two"
+      <Stack.Screen
+        name="settings"
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerShown: false,
         }}
       />
-    </Tabs>
+      <Stack.Screen
+        name="practitioners"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="facilities"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="wallet/accounts"
+        options={{
+          ...options,
+          title: "Virtual Accounts",
+        }}
+      />
+    </Stack>
   );
 }

@@ -59,7 +59,7 @@ const ProvidersOptions = () => {
       <View className="py-7 px-4 space-y-8">
         {/* Practitioners */}
         <View className="flex-1 h-full w-full bg-primaryGray px-4 py-5 rounded-lg space-y-5">
-          <Text style={[globalStyles.semibold_text, { fontSize: 18 }]}>
+          <Text style={[globalStyles.semibold_text, globalStyles.normal_text]}>
             Healthcare Practitioners
           </Text>
 
@@ -81,7 +81,7 @@ const ProvidersOptions = () => {
 
         {/* Facilities */}
         <View className="flex-1 h-full w-full bg-primaryGray px-4 py-5 rounded-lg space-y-5">
-          <Text style={[globalStyles.semibold_text, { fontSize: 18 }]}>
+          <Text style={[globalStyles.semibold_text, globalStyles.normal_text]}>
             Healthcare Facilities
           </Text>
 

@@ -74,6 +74,7 @@ const TagsInput: React.FC<Props> = ({
           autoCapitalize={autoCapitalize}
           textContentType={type}
           inputMode={mode}
+          placeholderTextColor="#858C94"
         />
       </View>
       <View

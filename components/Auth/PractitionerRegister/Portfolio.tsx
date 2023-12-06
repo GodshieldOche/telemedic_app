@@ -4,7 +4,6 @@ import { globalStyles } from "../../../constants/styles";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import useAppDispatch, { useAppSelector } from "../../../hooks/useDispatch";
-import moment from "moment";
 import AdderHeader from "../../Common/AdderHeader";
 import IconButton from "../../Common/IconButton";
 import { Path, Svg } from "react-native-svg";
@@ -15,6 +14,7 @@ import {
   deleteFromPractitionerLicences,
 } from "../../../redux/slices/practitioner/practitioner_portfolio";
 import { ScrollView } from "react-native-gesture-handler";
+import { getMonthYear } from "../../../utils/helper";
 
 const PractitionerPortfolio = () => {
   const { certifications, licences, educations, experiences } = useAppSelector(
@@ -22,10 +22,7 @@ const PractitionerPortfolio = () => {
   );
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const getDate = (date: string) => {
-    const year = moment(new Date(date)).format("MMM YYYY");
-    return year;
-  };
+
   return (
     <>
       <ScrollView className=" py-6 px-4 flex-1">
@@ -49,7 +46,7 @@ const PractitionerPortfolio = () => {
                   <View className="flex flex-row space-x-4 ">
                     <AntDesign
                       name="edit"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         router.push(
@@ -59,7 +56,7 @@ const PractitionerPortfolio = () => {
                     />
                     <MaterialCommunityIcons
                       name="delete-outline"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         dispatch(
@@ -73,11 +70,11 @@ const PractitionerPortfolio = () => {
                   style={[
                     globalStyles.regular_text,
                     {
-                      fontSize: 14,
+                      fontSize: 13,
                     },
                   ]}
                 >
-                  {getDate(certification.date)}
+                  {getMonthYear(certification.date)}
                 </Text>
               </View>
             ))}
@@ -102,7 +99,7 @@ const PractitionerPortfolio = () => {
                   <View className="flex flex-row space-x-4 ">
                     <AntDesign
                       name="edit"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         router.push(`/(auth)/practitioner/licence/${index}`)
@@ -110,7 +107,7 @@ const PractitionerPortfolio = () => {
                     />
                     <MaterialCommunityIcons
                       name="delete-outline"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         dispatch(deleteFromPractitionerLicences({ index }))
@@ -123,21 +120,21 @@ const PractitionerPortfolio = () => {
                     style={[
                       globalStyles.regular_text,
                       {
-                        fontSize: 14,
+                        fontSize: 13,
                       },
                     ]}
                   >
-                    {getDate(licence.from)} {"-"}{" "}
+                    {getMonthYear(licence.from)} {"-"}{" "}
                   </Text>
                   <Text
                     style={[
                       globalStyles.regular_text,
                       {
-                        fontSize: 14,
+                        fontSize: 13,
                       },
                     ]}
                   >
-                    {getDate(licence.to)}
+                    {getMonthYear(licence.to)}
                   </Text>
                 </View>
               </View>
@@ -165,7 +162,7 @@ const PractitionerPortfolio = () => {
                     <Text
                       style={[
                         globalStyles.semibold_text,
-                        { fontSize: 14, color: "#606060" },
+                        { fontSize: 13, color: "#606060" },
                       ]}
                     >
                       {education.institution}
@@ -175,7 +172,7 @@ const PractitionerPortfolio = () => {
                   <View className="flex flex-row space-x-4 ">
                     <AntDesign
                       name="edit"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         router.push(`/(auth)/practitioner/education/${index}`)
@@ -183,7 +180,7 @@ const PractitionerPortfolio = () => {
                     />
                     <MaterialCommunityIcons
                       name="delete-outline"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         dispatch(deleteFromPractitionerEducations({ index }))
@@ -196,21 +193,21 @@ const PractitionerPortfolio = () => {
                     style={[
                       globalStyles.regular_text,
                       {
-                        fontSize: 14,
+                        fontSize: 13,
                       },
                     ]}
                   >
-                    {getDate(education.from)} {"-"}{" "}
+                    {getMonthYear(education.from)} {"-"}{" "}
                   </Text>
                   <Text
                     style={[
                       globalStyles.regular_text,
                       {
-                        fontSize: 14,
+                        fontSize: 13,
                       },
                     ]}
                   >
-                    {education.present ? "Present" : getDate(education.to)}
+                    {education.present ? "Present" : getMonthYear(education.to)}
                   </Text>
                 </View>
               </View>
@@ -238,7 +235,7 @@ const PractitionerPortfolio = () => {
                     <Text
                       style={[
                         globalStyles.semibold_text,
-                        { fontSize: 14, color: "#606060" },
+                        { fontSize: 13, color: "#606060" },
                       ]}
                     >
                       {experience.organisation}
@@ -248,7 +245,7 @@ const PractitionerPortfolio = () => {
                   <View className="flex flex-row space-x-4 ">
                     <AntDesign
                       name="edit"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         router.push(`/(auth)/practitioner/experience/${index}`)
@@ -256,7 +253,7 @@ const PractitionerPortfolio = () => {
                     />
                     <MaterialCommunityIcons
                       name="delete-outline"
-                      size={24}
+                      size={20}
                       color="black"
                       onPress={() =>
                         dispatch(deleteFromPractitionerExperiences({ index }))
@@ -270,27 +267,29 @@ const PractitionerPortfolio = () => {
                       style={[
                         globalStyles.regular_text,
                         {
-                          fontSize: 14,
+                          fontSize: 13,
                         },
                       ]}
                     >
-                      {getDate(experience.from)} {"-"}{" "}
+                      {getMonthYear(experience.from)} {"-"}{" "}
                     </Text>
                     <Text
                       style={[
                         globalStyles.regular_text,
                         {
-                          fontSize: 14,
+                          fontSize: 13,
                         },
                       ]}
                     >
-                      {experience.present ? "Present" : getDate(experience.to)}
+                      {experience.present
+                        ? "Present"
+                        : getMonthYear(experience.to)}
                     </Text>
                   </View>
                   <Text
                     style={[
                       globalStyles.semibold_text,
-                      { fontSize: 14, color: "#606060" },
+                      { fontSize: 13, color: "#606060" },
                     ]}
                   >
                     {experience.description}

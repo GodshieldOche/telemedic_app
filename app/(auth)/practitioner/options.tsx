@@ -7,8 +7,11 @@ import { router } from "expo-router";
 const KycOptions = () => {
   return (
     <View className="py-6 px-4 bg-white flex-1 space-y-6 ">
-      <View className="justify-center items-center px-5 space-y-2 ">
-        <Text className="text-[23px]" style={[globalStyles.semibold_text]}>
+      <View className="justify-center items-center px-4 space-y-2 ">
+        <Text
+          className="text-[23px] text-center"
+          style={[globalStyles.semibold_text]}
+        >
           Select means of identification
         </Text>
         <Text

@@ -61,7 +61,7 @@ const KycDocUpload: React.FC<Props> = ({
           <Button text="Done" disabled={!image} action={handleSubmit} />
           <Pressable>
             <Text
-              className="text-lg text-primaryOne "
+              className="text-base text-primaryOne "
               style={[globalStyles.semibold_text]}
               onPress={handlePress}
             >

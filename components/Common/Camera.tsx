@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Camera, CameraType, FaceDetectionResult } from "expo-camera";
 import Loader from "./Loader";
-import { View } from "../Themed";
-import { Button, Text } from "react-native";
+import { Button, Text, View } from "react-native";
 import { globalStyles } from "../../constants/styles";
 import * as FaceDetector from "expo-face-detector";
-import { FaceDetectionChecks } from "../../utils/interface";
 
 interface Props {
   handleTakePicture: () => Promise<void>;

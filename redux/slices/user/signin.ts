@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { saveSecure } from "../../../utils/helper";
+import { deleteSecure, saveSecure } from "../../../utils/helper";
 
 export type error = {
   errors: {}[];
@@ -29,7 +29,7 @@ export const postSignIn: any = createAsyncThunk(
       );
       const token = data.data.token;
       await saveSecure("userToken", token);
-      return data.data.user;
+      return data.data.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
