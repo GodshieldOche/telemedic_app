@@ -6,9 +6,11 @@ import Services from "../../../components/User/Home/Services";
 import Upcoming from "../../../components/User/Home/Upcoming";
 import List from "../../../components/User/Home/List";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { useEffect } from "react";
 import { getAllResources } from "../../../redux/slices/app/resources";
+import { Iconify } from "react-native-iconify";
+import { globalStyles } from "../../../constants/styles";
 
 export default function TabOneScreen() {
   const { data } = useAppSelector((state) => state.userProfile);
@@ -29,7 +31,7 @@ export default function TabOneScreen() {
 
   return (
     <View
-      className="bg-white flex-1 "
+      className="bg-white  flex-1 "
       style={{
         paddingTop: insets.top,
       }}
@@ -48,7 +50,23 @@ export default function TabOneScreen() {
           <Header data={data} />
           <Services />
           <Upcoming />
-          <List resources={resources} />
+          {resources.length === 0 ? (
+            <View className="flex-1 justify-center space-y-2 pt-20 items-center">
+              <Iconify
+                icon="tabler:mood-smile-filled"
+                size={48}
+                color="#8863F2"
+              />
+              <Text
+                className="text-mainBalck text-base "
+                style={[globalStyles.regular_text]}
+              >
+                No available resources at the moment
+              </Text>
+            </View>
+          ) : (
+            <List resources={resources} />
+          )}
         </View>
       </ScrollView>
     </View>

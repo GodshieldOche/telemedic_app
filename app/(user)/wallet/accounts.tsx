@@ -34,10 +34,10 @@ const Accounts = () => {
         onDismiss={() => setVisible(false)}
       />
       <ScrollView className=" py-6 px-4  flex-1">
-        <View className="gap-y-6">
+        <View className="space-y-6">
           <View className="w-full bg-primaryTwo justify-center items-center rounded-xl py-3 px-4 ">
-            <View className="gap-y-3">
-              <View className="justify-center items-center gap-y-1">
+            <View className="space-y-3">
+              <View className="justify-center items-center space-y-1">
                 <View className="w-9 h-9 border border-primaryOne/80 justify-center items-center rounded-md ">
                   <Iconify icon="ph:bell-ringing-fill" color="#8863F2" />
                 </View>

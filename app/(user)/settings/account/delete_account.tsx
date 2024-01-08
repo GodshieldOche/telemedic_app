@@ -4,10 +4,35 @@ import Button from "../../../../components/Common/Button";
 import { globalStyles } from "../../../../constants/styles";
 import InfoSensitiveModal from "../../../../components/Modals/InfoSensitive";
 import { ScrollView } from "react-native-gesture-handler";
+import { deleteSecure } from "../../../../utils/helper";
+import { router } from "expo-router";
+import useAppDispatch from "../../../../hooks/useDispatch";
+import { deleteUserAccount } from "../../../../redux/slices/user/account";
+import { messageAlert } from "../../../../components/Common/Alerts";
 
 const DeleteAccount = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const dispatch = useAppDispatch();
+
+  const handleDeleteAccount = async () => {
+    setLoading(true);
+    const res = await dispatch(deleteUserAccount());
+    if (res.error) {
+      messageAlert(
+        "Error",
+        (res?.payload && res?.payload[0]?.error) || "Something went wrong"
+      );
+      return setLoading(false);
+    }
+
+    // handle logout
+    await deleteSecure("userToken");
+    setLoading(false);
+    setModalVisible(false);
+    router.replace("/(auth)/");
+  };
   return (
     <View className="flex-1  bg-white">
       <ScrollView className="flex-1  px-4 ">
@@ -51,9 +76,9 @@ const DeleteAccount = () => {
       </ScrollView>
       <InfoSensitiveModal
         closeModal={() => setModalVisible(false)}
-        action={() => {}}
+        action={handleDeleteAccount}
         modalVisible={modalVisible}
-        loading={false}
+        loading={loading}
         question="Are You Sure?"
         closeButtonText="No. Go Back"
         actionButtonText="Yes, Deactivate Account"

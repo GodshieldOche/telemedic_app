@@ -9,10 +9,10 @@ const AuthPage = () => {
   const [page, setPage] = useState("signin");
   return (
     <SafeAreaView className="flex-1 relative items-center bg-primaryOne">
-      <View className="flex-[0.35] w-full h-full items-center justify-center ">
+      <View className="flex-[0.3] w-full h-full items-center justify-center ">
         <PersonCircle />
       </View>
-      <View className="absolute w-full h-[65%]  bottom-0 bg-white  rounded-t-[40px] ">
+      <View className="absolute w-full h-[70%]  bottom-0 bg-white  rounded-t-[40px] ">
         {page === "signin" && (
           <SignIn handleCreateAccount={() => setPage("register")} />
         )}

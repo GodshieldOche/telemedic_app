@@ -1,5 +1,6 @@
-import { View, Text, Image } from "react-native";
+import { View } from "react-native";
 import React from "react";
+import { Image } from "expo-image";
 import { FlatList } from "react-native-gesture-handler";
 import { Media } from "../../../utils/interface";
 
@@ -15,21 +16,19 @@ const Photos: React.FC<Props> = ({ values }) => {
           data={values}
           renderItem={({ item }) => (
             <View
-              className="flex-1 w-full"
-              style={{ width: "100%", height: 180 }}
+              className="flex-1 w-full bg-primaryGray py-3"
+              style={{ width: "100%", height: 200 }}
               key={item.id}
             >
               <Image
-                source={{ uri: item.url }}
+                source={item.url}
+                contentFit="contain"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                placeholder={item.blur_hash}
               />
             </View>
           )}
           keyExtractor={(item) => item.id}
-          numColumns={2}
-          columnWrapperStyle={{
-            columnGap: 16,
-          }}
           contentContainerStyle={{
             rowGap: 16,
           }}

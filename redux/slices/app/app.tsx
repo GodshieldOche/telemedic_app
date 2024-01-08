@@ -1,5 +1,6 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Modal } from "../../../utils/interface";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Categorish, Modal } from "../../../utils/interface";
+import axios from "axios";
 
 export type error = {
   errors: {}[];
@@ -9,8 +10,30 @@ export type error = {
 export interface appState {
   loading: boolean;
   modal: Modal;
+  medications: Categorish[];
   error: object | null;
 }
+
+export const getMedications: any = createAsyncThunk(
+  `app/getMedications`,
+  async (signal: AbortSignal, { rejectWithValue }) => {
+    const url = process.env.EXPO_PUBLIC_API_URL;
+
+    try {
+      const { data }: any = await axios.get(`${url}/api/app/medications`, {
+        signal,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      return data.data;
+    } catch (error: any) {
+      console.log(error);
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 // Define the initial state using that type
 const initialState: appState = {
@@ -19,6 +42,7 @@ const initialState: appState = {
     active: false,
     type: "Error",
   },
+  medications: [],
   error: null,
 };
 
@@ -36,7 +60,19 @@ export const appSlice = createSlice({
       });
     },
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(getMedications.pending, (state) => {
+      state.loading = true;
+    }),
+      builder.addCase(getMedications.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.medications = payload;
+      }),
+      builder.addCase(getMedications.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      });
+  },
 });
 
 // // Other code such as selectors can use the imported `RootState` type

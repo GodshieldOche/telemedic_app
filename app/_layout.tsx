@@ -92,10 +92,10 @@ function RootLayoutNav() {
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(user)" options={{ headerShown: false }} />
+        <Stack.Screen name="(practitioner)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>
-      {/* <View className="fixed top-0 left-0 bottom-0 right-0 h-full w-full bg-red-900"></View> */}
     </>
   );
 }

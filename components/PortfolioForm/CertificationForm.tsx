@@ -7,6 +7,7 @@ import { Certification } from "../../utils/interface";
 import DateTime from "../Formik/Date";
 import Button from "../Common/Button";
 import DocPicker from "../Formik/DocumentPicker";
+import TextArea from "../Formik/TextArea";
 
 const certificateSchema = yup.object().shape({
   name: yup.string().required("This field is required"),
@@ -79,7 +80,7 @@ const CertificationForm: React.FC<{
                 type="name"
                 autoCapitalize="sentences"
               />
-              <Input
+              <TextArea
                 label="Description"
                 name="description"
                 value={values.description}

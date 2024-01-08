@@ -10,6 +10,7 @@ import Select from "../Formik/Picker";
 import { getYears } from "../../utils/helper";
 import { months } from "../../utils/data";
 import { globalStyles } from "../../constants/styles";
+import TextArea from "../Formik/TextArea";
 
 const certificateSchema = yup.object().shape({
   name: yup.string().required("This field is required"),
@@ -108,7 +109,7 @@ const LicenceForm: React.FC<{
                 type="name"
                 autoCapitalize="sentences"
               />
-              <Input
+              <TextArea
                 label="Description"
                 name="description"
                 value={values.description}

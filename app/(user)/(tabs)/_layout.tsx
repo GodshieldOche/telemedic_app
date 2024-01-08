@@ -1,9 +1,13 @@
 import { Tabs } from "expo-router";
-import { Platform, View } from "react-native";
+import { Platform } from "react-native";
 import { Iconify } from "react-native-iconify";
 import { globalStyles } from "../../../constants/styles";
+import { options } from "../../../constants/styles";
+import { useAppSelector } from "../../../hooks/useDispatch";
+import ImageSvg from "../../../components/Common/ImageSvg";
 
 export default function TabLayout() {
+  const data = useAppSelector((state) => state.userProfile).data!;
   return (
     <Tabs
       screenOptions={{
@@ -62,27 +66,23 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="five"
-        options={{
-          tabBarButton: () => (
-            <View className="flex-1 justify-center items-center ">
-              <View className="w-9 rounded-full flex justify-center items-center h-9 bg-primaryOne ">
-                <Iconify icon="ic:round-add" size={24} color="white" />
-              </View>
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="four"
         options={{
           title: "Message",
           tabBarIcon: ({ color, focused }) => (
             <>
               {focused ? (
-                <Iconify icon="ic:baseline-message" size={24} color={color} />
+                <Iconify
+                  icon="fluent:chat-multiple-24-filled"
+                  size={24}
+                  color={color}
+                />
               ) : (
-                <Iconify icon="ic:outline-message" size={24} color={color} />
+                <Iconify
+                  icon="fluent:chat-multiple-24-regular"
+                  size={24}
+                  color={color}
+                />
               )}
             </>
           ),
@@ -101,6 +101,21 @@ export default function TabLayout() {
                 <Iconify icon="ph:wallet" size={24} color={color} />
               )}
             </>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          ...options,
+          title: "You",
+          headerShown: false,
+          tabBarIcon: () => (
+            <ImageSvg
+              url={data.display_photo}
+              style={{ width: 24, height: 24 }}
+              blurhash={data.blur_hash}
+            />
           ),
         }}
       />

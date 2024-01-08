@@ -12,12 +12,15 @@ import SearchInput from "../../../../components/Common/SearchInput";
 import IconText from "../../../../components/Common/IconText";
 import ViewCard from "../../../../components/Common/ViewCard";
 import Loader from "../../../../components/Common/Loader";
+import NoRecordFound from "../../../../components/Common/NoRecordFound";
+import MoreModal from "../../../../components/Modals/MoreModal";
 
 const FaciltityCategory = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { list } = useAppSelector((state) => state.facilities);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -47,6 +50,8 @@ const FaciltityCategory = () => {
               icon,
               route: "/",
               iconContainerStyles,
+              action: () => setModalVisible(true),
+              isLink: false,
             },
           ]);
         });
@@ -66,33 +71,29 @@ const FaciltityCategory = () => {
   const more: Service = {
     text: "More",
     icon: icons["More"].icon,
-    route: `/(user)/facilities/more`,
+    route: `/`,
     iconContainerStyles: icons["More"].styles,
-    params: {
-      id: id.split("+")[1],
-    },
+    action: () => setModalVisible(true),
+    isLink: false,
   };
   return (
-    <View className="flex-1 bg-white">
-      <ScrollView className=" py-4  flex-1">
+    <View className="flex-1 py-4 bg-white">
+      <View
+        className="flex-1"
+        style={{
+          rowGap: 16,
+        }}
+      >
         <View
-          className="flex-1"
           style={{
-            flexDirection: "column",
             rowGap: 24,
-            padding: 0,
-            margin: 0,
           }}
         >
           <View className="px-4">
             <SearchInput />
           </View>
           <FlatList
-            data={[
-              ...services.slice(0, 3),
-              more,
-              // ...(services.length > 7 ? [more] : []),
-            ]}
+            data={[...services.slice(0, 3), more]}
             renderItem={({ item, index }) => (
               <IconText
                 icon={item.icon}
@@ -101,6 +102,8 @@ const FaciltityCategory = () => {
                 iconContainerStyles={item.iconContainerStyles}
                 params={item.params}
                 key={index}
+                isLink={item.isLink}
+                action={item.action}
               />
             )}
             numColumns={4}
@@ -115,32 +118,44 @@ const FaciltityCategory = () => {
               alignItems: "flex-start",
             }}
           />
-
-          <View className="px-4">
-            <FlatList
-              data={list}
-              renderItem={({ item, index }) => (
-                <ViewCard
-                  resource={item}
-                  key={index}
-                  isLastItem={index === list.length - 1}
-                  isOddTotal={list.length % 2 !== 0}
-                />
-              )}
-              numColumns={2}
-              columnWrapperStyle={{
-                columnGap: 16,
-              }}
-              contentContainerStyle={{
-                rowGap: 16,
-                paddingBottom: 36,
-              }}
-              scrollEnabled={false}
-              horizontal={false}
-            />
-          </View>
         </View>
-      </ScrollView>
+        <ScrollView className="py-2 flex-1">
+          {list.length === 0 ? (
+            <NoRecordFound />
+          ) : (
+            <View className="px-4">
+              <FlatList
+                data={list}
+                renderItem={({ item, index }) => (
+                  <ViewCard
+                    resource={item}
+                    key={index}
+                    isLastItem={index === list.length - 1}
+                    isOddTotal={list.length % 2 !== 0}
+                  />
+                )}
+                numColumns={2}
+                columnWrapperStyle={{
+                  columnGap: 16,
+                }}
+                contentContainerStyle={{
+                  rowGap: 16,
+                  paddingBottom: 36,
+                }}
+                scrollEnabled={false}
+                horizontal={false}
+              />
+            </View>
+          )}
+        </ScrollView>
+      </View>
+      <MoreModal
+        modalVisible={modalVisible}
+        closeModal={() => setModalVisible(false)}
+        action={() => {}}
+        loading={false}
+        services={services}
+      />
     </View>
   );
 };

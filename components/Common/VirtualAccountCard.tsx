@@ -27,6 +27,7 @@ const VirtualAccountCard: React.FC<Props> = ({
     <View className="bg-primaryOne rounded-2xl ">
       <ImageBackground
         className="px-4 py-3 space-y-3 "
+        tintColor={"white"}
         source={require("../../assets/images/medic_bg_one.png")}
       >
         <View className="flex flex-row justify-between">

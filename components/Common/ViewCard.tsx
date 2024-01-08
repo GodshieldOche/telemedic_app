@@ -1,4 +1,5 @@
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
+import { Image } from "expo-image";
 import React from "react";
 import { globalStyles } from "../../constants/styles";
 import { Iconify } from "react-native-iconify";
@@ -30,15 +31,14 @@ const ViewCard: React.FC<Props> = ({ resource, isLastItem, isOddTotal }) => {
     >
       <View className=" h-28">
         <Image
-          resizeMode="cover"
           className="w-full h-full rounded-[10px]"
           source={
             resource.display_picture
-              ? {
-                  uri: resource.display_picture,
-                }
+              ? resource.display_picture
               : require("../../assets/images/person_male.jpg")
           }
+          contentPosition="top"
+          placeholder={resource.blur_hash}
         />
       </View>
       <View className="space-y-2">

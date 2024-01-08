@@ -1,9 +1,9 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Pressable, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { globalStyles } from "../../../constants/styles";
 import AddressBox from "../../../components/Common/AddressBox";
-import { useAppSelector } from "../../../hooks/useDispatch";
+import useAppDispatch, { useAppSelector } from "../../../hooks/useDispatch";
 import Loader from "../../../components/Common/Loader";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { deleteSecure } from "../../../utils/helper";
@@ -12,15 +12,23 @@ import ProfileListItem from "../../../components/Common/ProfileListItem";
 import { Iconify } from "react-native-iconify";
 import { Path, Svg } from "react-native-svg";
 import InfoSensitiveModal from "../../../components/Modals/InfoSensitive";
+import ImageSvg from "../../../components/Common/ImageSvg";
+import { EditButton } from "../../../components/Common/svgs";
+import * as ImagePicker from "expo-image-picker";
+import { addOrUpdateProfileImage } from "../../../redux/slices/user/profile";
+import { messageAlert } from "../../../components/Common/Alerts";
 
 const SettingsIndexPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(false);
   const { data } = useAppSelector((state) => state.userProfile);
   const {
     location: { city, street },
   } = useAppSelector((state) => state.location);
   const insets = useSafeAreaInsets();
+
+  const dispatch = useAppDispatch();
 
   if (!data) {
     return <Loader />;
@@ -38,32 +46,77 @@ const SettingsIndexPage = () => {
     setModalVisible(false);
   };
 
+  const handlePress = async () => {
+    try {
+      const media = await ImagePicker.launchImageLibraryAsync({
+        allowsMultipleSelection: false,
+        mediaTypes: ImagePicker.MediaTypeOptions["Images"],
+      });
+      if (media.canceled) {
+        return;
+      }
+      const body = new FormData();
+      const file = {
+        uri: media.assets[0].uri,
+        type: media.assets[0].type,
+        name: media.assets[0].fileName,
+      };
+      body.append("profile_image", file as any);
+      setImageLoading(true);
+      const res = await dispatch(addOrUpdateProfileImage(body));
+      if (res.error) {
+        messageAlert(
+          "Error",
+          (res?.payload && res?.payload[0]?.error) || "Something went wrong"
+        );
+        return setImageLoading(false);
+      }
+      setImageLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View
-      className="flex-1 bg-white"
       style={{
-        paddingBottom: insets.bottom,
+        paddingTop: insets.top,
       }}
+      className="flex-1 bg-white"
     >
       <ScrollView className=" py-6  flex-1">
-        <View className="space-y-8 pb-10 flex-1  ">
+        <View className="space-y-8 pb-8 flex-1  ">
+          {/* Header */}
           <View className="px-4">
             <View className="p-3 bg-primaryGray space-y-2 justify-center items-center rounded-lg ">
-              <Image
-                source={require("../../../assets/images/male_avata.png")}
-                style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: 9999,
-                  objectFit: "cover",
-                }}
-              />
+              {/* Profile Image */}
+              <View className="relative">
+                <ImageSvg
+                  url={data.display_photo}
+                  blurhash={data.blur_hash}
+                  style={{ width: 64, height: 64 }}
+                />
+                {imageLoading && (
+                  <View className="absolute top-0 left-0 right-0 bottom-0 rounded-full justify-center items-center bg-black/40 ">
+                    <ActivityIndicator color="white" size={24} />
+                  </View>
+                )}
+
+                <Pressable
+                  onPress={handlePress}
+                  className="w-6 h-6 bg-primaryOne justify-center items-center rounded absolute bottom-0 -right-1"
+                >
+                  <EditButton />
+                </Pressable>
+              </View>
+              {/* Name */}
               <Text
                 className="text-mainBlack text-lg"
                 style={[globalStyles.regular_text]}
               >
                 {data.first_name} {data.last_name}
               </Text>
+              {/* Address */}
               <AddressBox
                 color="#8863F2"
                 textStyle={{
@@ -80,6 +133,7 @@ const SettingsIndexPage = () => {
             </View>
           </View>
 
+          {/* Body */}
           <View
             style={{
               rowGap: 4,
@@ -87,11 +141,13 @@ const SettingsIndexPage = () => {
           >
             <ProfileListItem
               title="Personal Information"
-              desc="Personal Information"
+              desc="Your personal information"
               icon={
                 <Iconify icon="mdi:bag-personal" size={24} color="#8863F2" />
               }
-              action={() => {}}
+              action={() =>
+                router.push("/(user)/settings/personal_information/")
+              }
             />
 
             <ProfileListItem
@@ -105,7 +161,7 @@ const SettingsIndexPage = () => {
                   />
                 </Svg>
               }
-              action={() => {}}
+              action={() => router.push("/(user)/settings/relationships/")}
             />
 
             <ProfileListItem
@@ -155,7 +211,9 @@ const SettingsIndexPage = () => {
                   color="#8863F2"
                 />
               }
-              action={() => {}}
+              action={() =>
+                router.push("/(user)/settings/shipping_information/")
+              }
             />
             <ProfileListItem
               title="Password/ Account Settings"
@@ -206,6 +264,9 @@ const SettingsIndexPage = () => {
               icon={<Iconify icon="uis:signout" size={24} color="#E1604D" />}
               showDesc={false}
               action={() => setModalVisible(true)}
+              styles={{
+                borderBottomColor: "transparent",
+              }}
             />
           </View>
         </View>

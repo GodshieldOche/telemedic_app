@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, StyleProp, ViewStyle } from "react-native";
 import React from "react";
 import { Iconify } from "react-native-iconify";
 import { globalStyles } from "../../constants/styles";
@@ -13,6 +13,7 @@ type Props = {
   isToggle?: boolean;
   toggleValue?: boolean;
   handleToggle?: () => void;
+  styles?: StyleProp<ViewStyle>;
 };
 
 const ProfileListItem: React.FC<Props> = ({
@@ -24,11 +25,13 @@ const ProfileListItem: React.FC<Props> = ({
   isToggle = false,
   toggleValue,
   handleToggle,
+  styles,
 }) => {
   return (
     <Pressable
       onPress={action}
       className="px-4 py-[14px] w-full flex flex-row space-x-5 items-center border-b-[0.5px] border-borderGrayTwo  "
+      style={[styles]}
     >
       <View className="w-9 h-9 bg-primaryTwo rounded-full flex justify-center items-center">
         {icon}

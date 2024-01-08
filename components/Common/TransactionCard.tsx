@@ -1,10 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import React from "react";
 import { Inflow, Outflow } from "./svgs";
 import { globalStyles } from "../../constants/styles";
 import moment from "moment";
+import { router } from "expo-router";
 
 type Props = {
+  id: string;
   title: string;
   name: string;
   type: "inflow" | "outflow";
@@ -23,6 +25,7 @@ const types = {
 };
 
 const TransactionCard: React.FC<Props> = ({
+  id,
   title,
   name,
   type,
@@ -35,7 +38,10 @@ const TransactionCard: React.FC<Props> = ({
   const date =
     status === "PENDING" || !date_completed ? date_initialized : date_completed;
   return (
-    <View className="w-full flex-row items-center py-1  ">
+    <Pressable
+      onPress={() => router.push(`/(user)/wallet/transactions/${id}`)}
+      className="w-full flex-row items-center py-1  "
+    >
       <View className="w-[16%]">
         <View className="w-9 h-9 bg-secGreen justify-center items-center rounded-md ">
           {types[type]}
@@ -43,7 +49,7 @@ const TransactionCard: React.FC<Props> = ({
       </View>
 
       <View className="flex flex-row w-[84%]  justify-between">
-        <View className="gap-y-[2px]">
+        <View className="space-y-[2px]">
           <Text
             className="text-mainBlack text-base "
             style={[globalStyles.semibold_text]}
@@ -57,7 +63,7 @@ const TransactionCard: React.FC<Props> = ({
             {title}
           </Text>
         </View>
-        <View className="gap-y-2">
+        <View className="space-y-2">
           <Text
             className="text-xs w-full text-mainBlack text-right "
             style={[globalStyles.regular_text]}
@@ -73,7 +79,7 @@ const TransactionCard: React.FC<Props> = ({
           </Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

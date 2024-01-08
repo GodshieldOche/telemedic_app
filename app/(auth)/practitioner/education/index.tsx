@@ -13,13 +13,12 @@ import Loader from "../../../../components/Common/Loader";
 const AddEducation = () => {
   const [data, _] = useState<Education>({
     institution: "",
-    degreeId: "",
-    fieldOfStudy: "",
+    degree_id: "",
+    field_of_study: "",
     from: undefined,
     to: undefined,
-    countryId: "",
+    country_id: "",
     present: false,
-    certificate_doc: undefined,
   });
 
   const { loading: cloading, data: countries } = useAppSelector(

@@ -17,6 +17,7 @@ import { setUserRegisterData } from "../../../redux/slices/user/signup";
 import CheckBox from "../../Formik/Checkbox";
 import { globalStyles } from "../../../constants/styles";
 import { ScrollView } from "react-native-gesture-handler";
+import { Image } from "expo-image";
 
 const signupSchema = yup.object().shape({
   gender: yup.string().required("This field is required"),

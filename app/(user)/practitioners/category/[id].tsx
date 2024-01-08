@@ -12,13 +12,17 @@ import { Categorish, Service } from "../../../../utils/interface";
 import { icons } from "../../../../utils/data";
 import _ from "lodash";
 import Loader from "../../../../components/Common/Loader";
-import { globalStyles } from "../../../../constants/styles";
+import NoRecordFound from "../../../../components/Common/NoRecordFound";
+import MoreModal from "../../../../components/Modals/MoreModal";
 
 const Practices = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { list } = useAppSelector((state) => state.practitioners);
+  const {
+    practitioners: { list },
+  } = useAppSelector((state) => state.practitioners);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -29,7 +33,9 @@ const Practices = () => {
     setLoading(true);
     dispatch(
       getPractitioners({
-        search_params: `practitioner_category_id=${actualId}`,
+        search_params: {
+          practitioner_category_id: actualId,
+        },
         signal,
       })
     );
@@ -48,6 +54,8 @@ const Practices = () => {
               icon,
               route: `/`,
               iconContainerStyles,
+              isLink: false,
+              action: () => {},
             },
           ]);
         });
@@ -67,101 +75,92 @@ const Practices = () => {
   const more: Service = {
     text: "More",
     icon: icons["More"].icon,
-    route: `/(user)/practitioners/more`,
+    route: `/`,
     iconContainerStyles: icons["More"].styles,
-    params: {
-      id: id.split("+")[1],
-    },
+    action: () => setModalVisible(true),
+    isLink: false,
   };
 
   return (
-    <View
-      className="flex-1  py-4  bg-white"
-      style={{
-        rowGap: 24,
-      }}
-    >
+    <View className="flex-1  py-4   bg-white">
       <View
-        className=""
+        className="flex-1"
         style={{
-          flexDirection: "column",
-          rowGap: 24,
-          padding: 0,
-          margin: 0,
+          rowGap: 16,
         }}
       >
-        <View className="px-4">
-          <SearchInput />
-        </View>
-        <FlatList
-          data={[
-            ...services.slice(0, 3),
-            more,
-            // ...(services.length > 7 ? [more] : []),
-          ]}
-          renderItem={({ item, index }) => (
-            <IconText
-              icon={item.icon}
-              text={item.text}
-              route={item.route}
-              iconContainerStyles={item.iconContainerStyles}
-              params={item.params}
-              key={index}
-            />
-          )}
-          numColumns={4}
-          scrollEnabled={false}
-          contentContainerStyle={{
-            gap: 16,
-            paddingHorizontal: 16,
+        <View
+          style={{
+            rowGap: 24,
           }}
-          columnWrapperStyle={{
-            gap: 16,
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-          }}
-        />
-      </View>
-      {list.length === 0 ? (
-        <View className=" flex-1 justify-center items-center">
-          <Image
-            source={require("../../../../assets/images/no_result.png")}
-            className="w-[320px] h-[280px]"
-          />
-          <Text
-            className="text-mainBlack text-center text-base"
-            style={[globalStyles.regular_text]}
-          >
-            No Record found
-          </Text>
-        </View>
-      ) : (
-        <ScrollView className=" flex-1">
+        >
           <View className="px-4">
-            <FlatList
-              data={list}
-              renderItem={({ item, index }) => (
-                <ViewCard
-                  resource={item}
-                  key={index}
-                  isLastItem={index === list.length - 1}
-                  isOddTotal={list.length % 2 !== 0}
-                />
-              )}
-              numColumns={2}
-              columnWrapperStyle={{
-                columnGap: 16,
-              }}
-              contentContainerStyle={{
-                rowGap: 16,
-                paddingBottom: 36,
-              }}
-              scrollEnabled={false}
-              horizontal={false}
-            />
+            <SearchInput />
           </View>
+          <FlatList
+            data={[...services.slice(0, 3), more]}
+            renderItem={({ item, index }) => (
+              <IconText
+                icon={item.icon}
+                text={item.text}
+                route={item.route}
+                iconContainerStyles={item.iconContainerStyles}
+                params={item.params}
+                key={index}
+                isLink={item.isLink}
+                action={item.action}
+              />
+            )}
+            numColumns={4}
+            scrollEnabled={false}
+            contentContainerStyle={{
+              gap: 16,
+              paddingHorizontal: 16,
+            }}
+            columnWrapperStyle={{
+              gap: 16,
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+            }}
+          />
+        </View>
+        <ScrollView className="py-2 flex-1">
+          {list.length === 0 ? (
+            <NoRecordFound />
+          ) : (
+            <View className="px-4">
+              <FlatList
+                data={list}
+                renderItem={({ item, index }) => (
+                  <ViewCard
+                    resource={item}
+                    key={index}
+                    isLastItem={index === list.length - 1}
+                    isOddTotal={list.length % 2 !== 0}
+                  />
+                )}
+                numColumns={2}
+                columnWrapperStyle={{
+                  columnGap: 16,
+                }}
+                contentContainerStyle={{
+                  rowGap: 16,
+                  paddingBottom: 36,
+                }}
+                scrollEnabled={false}
+                horizontal={false}
+              />
+            </View>
+          )}
         </ScrollView>
-      )}
+      </View>
+      <MoreModal
+        modalVisible={modalVisible}
+        closeModal={() => setModalVisible(false)}
+        action={() => {}}
+        loading={false}
+        services={services}
+      />
     </View>
   );
 };

@@ -9,6 +9,7 @@ import { FlatList, ScrollView } from "react-native-gesture-handler";
 import SearchInput from "../../../components/Common/SearchInput";
 import IconText from "../../../components/Common/IconText";
 import ViewCard from "../../../components/Common/ViewCard";
+import NoRecordFound from "../../../components/Common/NoRecordFound";
 
 const FacilitiesPage = () => {
   const [services, setServices] = useState<Service[]>([]);
@@ -43,15 +44,16 @@ const FacilitiesPage = () => {
     );
   }, []);
   return (
-    <View className="flex-1 bg-white">
-      <ScrollView className=" py-4  flex-1">
+    <View className="flex-1 py-4 bg-white">
+      <View
+        className="flex-1"
+        style={{
+          rowGap: 16,
+        }}
+      >
         <View
-          className="flex-1"
           style={{
-            flexDirection: "column",
             rowGap: 24,
-            padding: 0,
-            margin: 0,
           }}
         >
           <View className="px-4">
@@ -75,32 +77,37 @@ const FacilitiesPage = () => {
             }}
             showsHorizontalScrollIndicator={false}
           />
-
-          <View className="px-4">
-            <FlatList
-              data={resources}
-              renderItem={({ item, index }) => (
-                <ViewCard
-                  resource={item}
-                  key={index}
-                  isLastItem={index === resources.length - 1}
-                  isOddTotal={resources.length % 2 !== 0}
-                />
-              )}
-              numColumns={2}
-              columnWrapperStyle={{
-                columnGap: 16,
-              }}
-              contentContainerStyle={{
-                rowGap: 16,
-                paddingBottom: 36,
-              }}
-              scrollEnabled={false}
-              horizontal={false}
-            />
-          </View>
         </View>
-      </ScrollView>
+        <ScrollView className="py-2 flex-1">
+          {resources.length === 0 ? (
+            <NoRecordFound />
+          ) : (
+            <View className="px-4">
+              <FlatList
+                data={resources}
+                renderItem={({ item, index }) => (
+                  <ViewCard
+                    resource={item}
+                    key={index}
+                    isLastItem={index === resources.length - 1}
+                    isOddTotal={resources.length % 2 !== 0}
+                  />
+                )}
+                numColumns={2}
+                columnWrapperStyle={{
+                  columnGap: 16,
+                }}
+                contentContainerStyle={{
+                  rowGap: 16,
+                  paddingBottom: 36,
+                }}
+                scrollEnabled={false}
+                horizontal={false}
+              />
+            </View>
+          )}
+        </ScrollView>
+      </View>
     </View>
   );
 };

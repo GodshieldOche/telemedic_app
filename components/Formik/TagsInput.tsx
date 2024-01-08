@@ -124,14 +124,14 @@ const TagsInput: React.FC<Props> = ({
           </View>
         ))}
       </View>
-      {touched && errors && (
+      {errors && (
         <Text
           style={[
             globalStyles.regular_text,
             {
               color: "#DA1414",
               fontSize: 12,
-              display: touched ? "flex" : "none",
+              paddingLeft: 16,
             },
           ]}
         >

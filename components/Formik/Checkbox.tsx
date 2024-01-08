@@ -30,7 +30,7 @@ const CheckBox: React.FC<Props> = ({
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          columnGap: 8,
+          columnGap: 12,
         }}
       >
         <Checkbox
@@ -44,14 +44,14 @@ const CheckBox: React.FC<Props> = ({
         {label}
       </View>
 
-      {touched && errors && (
+      {errors && (
         <Text
           style={[
             globalStyles.regular_text,
             {
               color: "#DA1414",
               fontSize: 12,
-              display: touched ? "flex" : "none",
+              paddingLeft: 16,
             },
           ]}
         >

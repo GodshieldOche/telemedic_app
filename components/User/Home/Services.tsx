@@ -33,7 +33,7 @@ const Services = () => {
         )}
         horizontal
         contentContainerStyle={{
-          columnGap: 8,
+          columnGap: 4,
           paddingHorizontal: 8,
           alignItems: "flex-start",
         }}

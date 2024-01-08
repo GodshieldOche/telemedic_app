@@ -1,5 +1,6 @@
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { Image } from "expo-image";
 import { globalStyles } from "../../constants/styles";
 import * as ImagePicker from "expo-image-picker";
 import { FlatList } from "react-native-gesture-handler";
@@ -68,7 +69,7 @@ const MediaPicker: React.FC<Props> = ({
       <Pressable
         onBlur={handleBlur(name)}
         onPress={handlePress}
-        className="w-full relative flex items-center justify-center py-4 bg-white border border-dashed border-primaryOne/40 "
+        className="w-full relative flex items-center justify-center py-6 bg-white border border-dashed border-primaryOne/40 "
       >
         <Text
           style={[
@@ -137,14 +138,14 @@ const MediaPicker: React.FC<Props> = ({
         />
       )}
 
-      {touched && errors && (
+      {errors && (
         <Text
           style={[
             globalStyles.regular_text,
             {
               color: "#DA1414",
               fontSize: 12,
-              display: touched ? "flex" : "none",
+              paddingLeft: 16,
             },
           ]}
         >

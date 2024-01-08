@@ -12,7 +12,7 @@ type Props = {
 const IconBox: React.FC<Props> = ({ text, textStyle, style, icon }) => {
   return (
     <View
-      className="flex flex-row  items-center rounded-full py-1 px-1 pr-4 space-x-1 bg-[#FFFAE7]"
+      className="flex flex-row  items-center rounded-full py-1 px-3 pr-4 space-x-1 bg-[#FFFAE7]"
       style={[style]}
     >
       <View className=" flex justify-center items-center ">{icon}</View>

@@ -64,7 +64,7 @@ const DocPicker: React.FC<Props> = ({
       <Pressable
         onBlur={handleBlur(name)}
         onPress={handlePress}
-        className="w-full relative flex items-center justify-center py-4 bg-white border border-dashed border-primaryOne/40 "
+        className="w-full relative flex items-center justify-center py-6 bg-white border border-dashed border-primaryOne/40 "
       >
         <Text
           style={[
@@ -104,14 +104,14 @@ const DocPicker: React.FC<Props> = ({
             </View>
           )
       )}
-      {touched && errors && (
+      {errors && (
         <Text
           style={[
             globalStyles.regular_text,
             {
               color: "#DA1414",
               fontSize: 12,
-              display: touched ? "flex" : "none",
+              paddingLeft: 16,
             },
           ]}
         >

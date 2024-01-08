@@ -1,4 +1,4 @@
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import React from "react";
 import { globalStyles } from "../../../constants/styles";
 import { Iconify } from "react-native-iconify";
@@ -6,6 +6,7 @@ import { User } from "../../../utils/interface";
 import { router } from "expo-router";
 import { useAppSelector } from "../../../hooks/useDispatch";
 import NotifIcon from "../../Common/NotifIcon";
+import ImageSvg from "../../Common/ImageSvg";
 
 interface Props {
   data: User;
@@ -19,15 +20,11 @@ const Header: React.FC<Props> = ({ data }) => {
     <View className="px-4">
       <View className="border relative w-full p-4 flex flex-row justify-between items-center rounded-[10px] border-borderGray">
         <View className="flex flex-row space-x-3 items-center ">
-          <Pressable onPress={() => router.push("/(user)/settings/")}>
-            <Image
-              source={require("../../../assets/images/male_avata.png")}
-              style={{
-                width: 51,
-                height: 51,
-                borderRadius: 9999,
-                objectFit: "cover",
-              }}
+          <Pressable onPress={() => router.push("/(user)/(tabs)/settings")}>
+            <ImageSvg
+              url={data.display_photo}
+              blurhash={data.blur_hash}
+              style={{ width: 51, height: 51 }}
             />
           </Pressable>
           <View className="space-y-[7px]">
@@ -55,10 +52,15 @@ const Header: React.FC<Props> = ({ data }) => {
         <View
           className="flex flex-row "
           style={{
-            columnGap: 8,
+            columnGap: 12,
           }}
         >
           <Iconify icon="ic:round-search" size={24} color="#858C94" />
+          <Iconify
+            icon="heroicons-outline:shopping-cart"
+            size={24}
+            color="#858C94"
+          />
           <NotifIcon />
         </View>
       </View>

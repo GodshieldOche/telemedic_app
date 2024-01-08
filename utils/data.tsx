@@ -58,6 +58,24 @@ export const months = [
   { name: "December", number: 12 },
 ];
 
+export const partsoftheday = {
+  Morning: {
+    label: "Morning",
+    value: "Morning",
+    icon: <Iconify icon="ph:sun-horizon-bold" size={24} color="#545D69" />,
+  },
+  Afternoon: {
+    label: "Afternoon",
+    value: "Afternoon",
+    icon: <Iconify icon="ph:sun-dim-bold" size={24} color="#545D69" />,
+  },
+  Evening: {
+    label: "Evening",
+    value: "Evening",
+    icon: <Iconify icon="akar-icons:moon" size={24} color="#545D69" />,
+  },
+};
+
 export const services: Service[] = [
   {
     text: "Practitioner",

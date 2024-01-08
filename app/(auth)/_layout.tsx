@@ -7,10 +7,16 @@ import { options } from "../../constants/styles";
 const AuthLayout = () => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState<string | null>(null);
+  const [practitionerToken, setPractitionerToken] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     getSecureValueFor("userToken").then((token) => {
       setToken(token);
+    });
+    getSecureValueFor("practitionerToken").then((token) => {
+      setPractitionerToken(token);
       setLoading(false);
     });
   }, []);
@@ -22,6 +28,11 @@ const AuthLayout = () => {
   if (token) {
     return <Redirect href="/(user)/(tabs)/" />;
   }
+
+  if (practitionerToken) {
+    return <Redirect href="/(practitioner)/(tabs)/" />;
+  }
+
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />

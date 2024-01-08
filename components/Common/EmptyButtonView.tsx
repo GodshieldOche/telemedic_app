@@ -7,9 +7,15 @@ type Props = {
   text: string;
   title: string;
   action: () => void;
+  hideAddButton?: boolean;
 };
 
-const EmptyButtonView: React.FC<Props> = ({ text, title, action }) => {
+const EmptyButtonView: React.FC<Props> = ({
+  text,
+  title,
+  action,
+  hideAddButton = false,
+}) => {
   return (
     <View
       className="px-6"
@@ -34,7 +40,7 @@ const EmptyButtonView: React.FC<Props> = ({ text, title, action }) => {
           {title}
         </Text>
       </View>
-      <Button text={text} action={action} />
+      {!hideAddButton && <Button text={text} action={action} />}
     </View>
   );
 };

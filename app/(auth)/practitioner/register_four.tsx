@@ -55,8 +55,11 @@ const CreateAccountPractitioner = () => {
         country_id: Number(practitioner.address.country_id),
       },
     };
+    console.log(practitioner);
+
     const response = await dispatch(postPractitionerSignUp(body));
     if (response.error) {
+      console.log(response);
       setSubmitting(false);
       messageAlert(
         "Error",

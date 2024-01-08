@@ -2,6 +2,10 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import appReducer, { appState } from "./slices/app/app";
 import userRegisterReducer, { signupState } from "./slices/user/signup";
 import userSigninReducer, { signinState } from "./slices/user/signin";
+import userAddressReducer, { addressState } from "./slices/user/address";
+import relationshipReducer, {
+  relationshipState,
+} from "./slices/user/relationship";
 import countryReducer, { countryState } from "./slices/app/country";
 import stateReducer, { stateState } from "./slices/app/state";
 import degreesReducer, { degreeState } from "./slices/app/degrees";
@@ -9,12 +13,34 @@ import languagesReducer, { languagesState } from "./slices/app/languages";
 import cityReducer, { cityState } from "./slices/app/cities";
 import resourcesReducer, { resourcesState } from "./slices/app/resources";
 import locationReducer, { locationState } from "./slices/app/location";
+import medical_historyReducer, {
+  medical_historyState,
+} from "./slices/user/medical_info/medical_history";
+import allergyReducer, {
+  allergyState,
+} from "./slices/user/medical_info/allergy";
+import prescriptionReducer, {
+  prescriptionState,
+} from "./slices/user/medical_info/prescription";
+import insuranceReducer, {
+  insuranceState,
+} from "./slices/user/medical_info/insurance";
+import test_resultReducer, {
+  test_resultState,
+} from "./slices/user/medical_info/test_result";
 import practitionersReducer, {
   practitionersState,
 } from "./slices/app/practitioners";
 import walletReducer, { walletState } from "./slices/user/wallet";
+import userAccountReducer, { accountState } from "./slices/user/account";
+import practitionerAccountReducer, {
+  practitionerAccountState,
+} from "./slices/practitioner/account";
 import facilitiesReducer, { facilitiesState } from "./slices/app/facilities";
 import userProfileReducer, { profileState } from "./slices/user/profile";
+import practitionerProfileReducer, {
+  practitionerProfileState,
+} from "./slices/practitioner/profile";
 import practitionerCategoryReducer, {
   practitionerCategoryState,
 } from "./slices/app/practitioner_category";
@@ -51,6 +77,11 @@ const rootReducer = combineReducers({
   userRegister: userRegisterReducer,
   userSignin: userSigninReducer,
   userProfile: userProfileReducer,
+  practitionerProfile: practitionerProfileReducer,
+  userAccount: userAccountReducer,
+  practitionerAccount: practitionerAccountReducer,
+  userAddress: userAddressReducer,
+  relationship: relationshipReducer,
   country: countryReducer,
   state: stateReducer,
   city: cityReducer,
@@ -59,6 +90,11 @@ const rootReducer = combineReducers({
   resources: resourcesReducer,
   practitioners: practitionersReducer,
   location: locationReducer,
+  medical_history: medical_historyReducer,
+  allergy: allergyReducer,
+  insurance: insuranceReducer,
+  test_result: test_resultReducer,
+  prescription: prescriptionReducer,
   facilities: facilitiesReducer,
   wallet: walletReducer,
   practitionerCategory: practitionerCategoryReducer,
@@ -84,7 +120,12 @@ export type RootState = {
   userRegister: signupState;
   userSignin: signinState;
   userProfile: profileState;
+  practitionerProfile: practitionerProfileState;
+  userAccount: accountState;
+  practitionerAccount: practitionerAccountState;
+  userAddress: addressState;
   country: countryState;
+  relationship: relationshipState;
   state: stateState;
   city: cityState;
   degrees: degreeState;
@@ -92,6 +133,11 @@ export type RootState = {
   resources: resourcesState;
   practitioners: practitionersState;
   location: locationState;
+  medical_history: medical_historyState;
+  prescription: prescriptionState;
+  allergy: allergyState;
+  insurance: insuranceState;
+  test_result: test_resultState;
   facilities: facilitiesState;
   wallet: walletState;
   practitionerCategory: practitionerCategoryState;

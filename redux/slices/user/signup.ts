@@ -26,7 +26,7 @@ export const postSignUp: any = createAsyncThunk(
         body,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );

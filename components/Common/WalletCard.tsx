@@ -22,7 +22,7 @@ const WalletCard: React.FC<Props> = ({
   return (
     <View className="px-4" style={{ width: width }}>
       <View className="w-full bg-white py-2 px-4 rounded-lg  divide-y divide-primaryOne/20 ">
-        <View className="flex flex-row items-center gap-x-3 w-full pb-3 ">
+        <View className="flex flex-row items-center space-x-3 w-full pb-3 ">
           <View className="w-9 h-9 rounded-full justify-center items-center border border-primaryOne/70 ">
             {icon}
           </View>

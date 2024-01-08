@@ -62,8 +62,8 @@ const Input: React.FC<Props> = ({
               padding: Platform.OS === "ios" ? 16 : 14,
               fontSize: 16,
               borderRadius: 8,
-              color: "#2B2B2B",
-              backgroundColor: "#fff",
+              color: disabled ? "rgba(43, 43, 43, 0.8)" : "#2B2B2B",
+              backgroundColor: disabled ? "#DADEE3" : "#fff",
             },
           ]}
           onChangeText={(e) => handleChange(name, e)}
@@ -96,14 +96,14 @@ const Input: React.FC<Props> = ({
           </View>
         )}
       </View>
-      {touched && errors && (
+      {errors && (
         <Text
           style={[
             globalStyles.regular_text,
             {
               color: "#DA1414",
               fontSize: 12,
-              display: touched ? "flex" : "none",
+              paddingLeft: 16,
             },
           ]}
         >

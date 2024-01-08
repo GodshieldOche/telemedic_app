@@ -1,19 +1,31 @@
 import { View, Text, FlatList, Animated, Pressable } from "react-native";
 import React, { useRef } from "react";
-import { globalStyles } from "../../../constants/styles";
-import NotifIcon from "../../Common/NotifIcon";
+import { globalStyles } from "../constants/styles";
+import NotifIcon from "./Common/NotifIcon";
 import { Iconify } from "react-native-iconify";
-import WalletCard from "../../Common/WalletCard";
-import Paginator from "../../Onboarding/Paginator";
-import { AllOnWallet } from "../../../utils/interface";
-import { EmptyWallet, Locked } from "../../Common/svgs";
+import WalletCard from "./Common/WalletCard";
+import Paginator from "./Onboarding/Paginator";
+import { AllOnWallet } from "../utils/interface";
+import { EmptyWallet, Locked } from "./Common/svgs";
 import { LinkProps, router } from "expo-router";
 
 type Props = {
   data: AllOnWallet["wallet"];
+  options: {
+    icon: React.JSX.Element;
+    title: string;
+    route: LinkProps<string>["href"];
+  }[];
+  title?: string;
+  text?: string;
 };
 
-const Header: React.FC<Props> = ({ data }) => {
+const Header: React.FC<Props> = ({
+  data,
+  options,
+  title = "Wallet",
+  text = "Fund Your Wallet to make Payments",
+}) => {
   const slidesRef = useRef<any>(null);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -37,40 +49,22 @@ const Header: React.FC<Props> = ({ data }) => {
       symbol: data?.symbol,
     },
   ];
-  const options: {
-    icon: React.JSX.Element;
-    title: string;
-    route: LinkProps<string>["href"];
-  }[] = [
-    {
-      icon: <Iconify icon="ri:refund-fill" color="#8863F2" />,
-      title: "Fund Wallet",
-      route: "/(user)/wallet/accounts",
-    },
-    {
-      icon: (
-        <Iconify icon="icon-park-solid:folder-withdrawal" color="#8863F2" />
-      ),
-      title: "Withdraw",
-      route: "/",
-    },
-  ];
 
   return (
-    <View className="gap-y-4">
+    <View className="space-y-4">
       <View className="flex flex-row w-full px-4 items-start justify-between">
-        <View className="flex gap-y-1">
+        <View className="flex space-y-1">
           <Text
             className="text-2xl text-mainWhite"
             style={[globalStyles.semibold_text]}
           >
-            Wallet
+            {title}
           </Text>
           <Text
             className="text-base text-mainWhite"
             style={[globalStyles.meduim_text]}
           >
-            Fund Your Wallet to make Payments
+            {text}
           </Text>
         </View>
         <NotifIcon icon={<Iconify icon="mdi:bell" size={24} color="#fff" />} />
@@ -122,7 +116,7 @@ const Header: React.FC<Props> = ({ data }) => {
               onPress={() => router.push(item.route)}
               className="flex-1 rounded-lg px-3 py-[14px] bg-white"
             >
-              <View className="flex flex-row items-center gap-x-3 ">
+              <View className="flex flex-row items-center space-x-3 ">
                 {item.icon}
                 <Text
                   className="text-base text-secBlack"

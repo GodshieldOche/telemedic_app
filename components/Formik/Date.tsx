@@ -2,6 +2,7 @@ import React from "react";
 import { Platform, Text, View } from "react-native";
 import { globalStyles } from "../../constants/styles";
 import { DateTimePicker } from "react-native-ui-lib";
+import { Iconify } from "react-native-iconify";
 
 interface Props {
   label: string;
@@ -26,7 +27,7 @@ const DateTime: React.FC<Props> = ({
   disabled,
   errors,
   touched,
-  mode,
+  mode = "date",
 }) => {
   return (
     <View className="w-full flex space-y-2">
@@ -68,15 +69,22 @@ const DateTime: React.FC<Props> = ({
           height: 85,
         }}
         placeholderTextColor="#858C94"
+        trailingAccessory={
+          mode === "time" ? (
+            <Iconify icon="radix-icons:clock" size={20} color="#858C94" />
+          ) : (
+            <Iconify icon="ic:round-date-range" size={20} color="#858C94" />
+          )
+        }
       />
-      {touched && errors && (
+      {errors && (
         <Text
           style={[
             globalStyles.regular_text,
             {
               color: "#DA1414",
               fontSize: 12,
-              display: touched ? "flex" : "none",
+              paddingLeft: 16,
             },
           ]}
         >

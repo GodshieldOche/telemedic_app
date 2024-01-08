@@ -6,10 +6,23 @@ export type error = {
   errors: {}[];
 };
 
+type Ranges = {
+  min_price: number;
+  max_price: number;
+  min_experience: number;
+  max_experience: number;
+};
+
 // Define a type for the slice state
 export interface practitionersState {
   loading: boolean;
-  list: Resource[];
+  practitioners: {
+    list: Resource[];
+    itemsPerPage: number;
+    total: number;
+    page: number;
+    ranges: Ranges;
+  };
   data: Practitioner | null;
   error: object | null;
 }
@@ -18,23 +31,23 @@ export const getPractitioners: any = createAsyncThunk(
   `practitioners/getPractitioners`,
   async (
     {
-      search_params = "",
+      search_params = {},
       signal,
-    }: { signal: AbortSignal; search_params: string },
+    }: { signal: AbortSignal; search_params: object },
     { rejectWithValue }
   ) => {
     const url = process.env.EXPO_PUBLIC_API_URL;
 
     try {
-      const { data }: any = await axios.get(
-        `${url}/api/app/practitioners?${search_params}`,
-        {
-          signal,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const { data }: any = await axios.get(`${url}/api/app/practitioners`, {
+        params: {
+          ...search_params,
+        },
+        signal,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       return data.data;
     } catch (error: any) {
@@ -72,7 +85,18 @@ export const getPractitioner: any = createAsyncThunk(
 // Define the initial state using that type
 const initialState: practitionersState = {
   loading: true,
-  list: [],
+  practitioners: {
+    list: [],
+    itemsPerPage: 0,
+    total: 0,
+    page: 0,
+    ranges: {
+      min_price: 0,
+      max_price: 0,
+      min_experience: 0,
+      max_experience: 0,
+    },
+  },
   data: null,
   error: null,
 };
@@ -91,7 +115,13 @@ export const practitionersSlice = createSlice({
     }),
       builder.addCase(getPractitioners.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.list = payload;
+        state.practitioners = {
+          list: payload.data,
+          itemsPerPage: payload.items_per_page,
+          total: payload.total,
+          page: payload.page,
+          ranges: payload.ranges,
+        };
       }),
       builder.addCase(getPractitioners.rejected, (state, { payload }) => {
         state.loading = false;

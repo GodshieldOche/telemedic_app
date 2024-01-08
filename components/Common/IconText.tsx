@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import React from "react";
 import { globalStyles } from "../../constants/styles";
-import { Link } from "expo-router";
+import { router } from "expo-router";
 import { Service } from "../../utils/interface";
 
 const IconText: React.FC<Service> = ({
@@ -10,13 +10,12 @@ const IconText: React.FC<Service> = ({
   route,
   iconContainerStyles,
   params,
+  action,
+  isLink = true,
 }) => {
   return (
-    <Link
-      href={{
-        pathname: route,
-        params: params,
-      }}
+    <Pressable
+      onPress={() => (isLink ? router.push(route) : action?.())}
       className="mt-1"
     >
       <View className="space-y-[5px] flex w-[81px] justify-center items-center">
@@ -33,7 +32,7 @@ const IconText: React.FC<Service> = ({
           {text}
         </Text>
       </View>
-    </Link>
+    </Pressable>
   );
 };
 

@@ -10,6 +10,7 @@ import useAppDispatch from "../../hooks/useDispatch";
 import { postSignIn } from "../../redux/slices/user/signin";
 import { messageAlert } from "../../components/Common/Alerts";
 import { useRouter } from "expo-router";
+import { postPractitionerSignIn } from "../../redux/slices/practitioner/practitioner_signin";
 
 const signinSchema = yup.object().shape({
   email: yup
@@ -27,6 +28,7 @@ interface signinValues {
 const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
   handleCreateAccount,
 }) => {
+  const [activeTab, setActiveTab] = React.useState("Patient");
   const initialValues: signinValues = {
     email: "",
     password: "",
@@ -35,33 +37,87 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const handlePatientLogin = async (
+    values: signinValues,
+    setSubmitting: (isSubmitting: boolean) => void
+  ) => {
+    const res = await dispatch(postSignIn(values));
+    if (res.error) {
+      setSubmitting(false);
+      messageAlert(
+        "Error",
+        (res?.payload && res?.payload[0]?.error) || "Something went wrong"
+      );
+      return;
+    }
+    setSubmitting(false);
+    router.replace("/(user)/(tabs)/");
+  };
+
+  const handlePractitionerLogin = async (
+    values: signinValues,
+    setSubmitting: (isSubmitting: boolean) => void
+  ) => {
+    const res = await dispatch(postPractitionerSignIn(values));
+    if (res.error) {
+      setSubmitting(false);
+      messageAlert(
+        "Error",
+        (res?.payload && res?.payload[0]?.error) || "Something went wrong"
+      );
+      return;
+    }
+    setSubmitting(false);
+    router.replace("/(practitioner)/(tabs)/");
+  };
+
+  const tabs = {
+    Patient: handlePatientLogin,
+    Practitioner: handlePractitionerLogin,
+  };
+
   return (
-    <ScrollView className="">
-      <View className=" p-6 items-center flex flex-col space-y-7">
+    <View className="flex-1">
+      <View className=" p-4 items-center flex flex-col space-y-7">
         <Text
           className="text-xl text-mainBlack "
           style={globalStyles.semibold_text}
         >
           Sign In
         </Text>
-
-        <View className="flex-1 w-full">
+      </View>
+      <ScrollView className="px-4">
+        <View className="flex-1 pt-2 pb-6 w-full">
+          <View className="w-full flex-row">
+            {Object.keys(tabs).map((tab) => (
+              <Pressable
+                className="bg-primaryTwo px-4 w-[50%] rounded-t-md justify-center items-center py-3 "
+                style={{
+                  backgroundColor: activeTab === tab ? "#F2EFFF" : "#fff",
+                }}
+                onPress={() => setActiveTab(tab)}
+                key={tab}
+              >
+                <Text
+                  className="text-base text-primaryOne"
+                  style={[
+                    activeTab === tab
+                      ? globalStyles.bold_text
+                      : globalStyles.regular_text,
+                    {
+                      color: activeTab === tab ? "#8863F2" : "#545D69",
+                    },
+                  ]}
+                >
+                  {tab}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
           <Formik
             initialValues={initialValues}
-            onSubmit={async (values, { resetForm, setSubmitting }) => {
-              const res = await dispatch(postSignIn(values));
-              if (res.error) {
-                setSubmitting(false);
-                messageAlert(
-                  "Error",
-                  (res?.payload && res?.payload[0]?.error) ||
-                    "Something went wrong"
-                );
-                return;
-              }
-              resetForm();
-              setSubmitting(false);
-              router.replace("/(user)/");
+            onSubmit={async (values, { setSubmitting }) => {
+              await tabs[activeTab as keyof typeof tabs](values, setSubmitting);
             }}
             validationSchema={signinSchema}
             validateOnMount
@@ -80,10 +136,11 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
                 style={{
                   flex: 1,
                   flexDirection: "column",
-                  rowGap: 32,
+                  rowGap: 13,
                 }}
               >
                 <View
+                  className="bg-primaryTwo px-4 py-8"
                   style={{
                     flexDirection: "column",
                     rowGap: 16,
@@ -161,8 +218,8 @@ const SignIn: React.FC<{ handleCreateAccount: () => void }> = ({
             )}
           </Formik>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 

@@ -24,6 +24,33 @@ export const getMonthYear = (date: string) => {
   return year;
 };
 
+export const getDateRange = (start_date: string, end_date: string) => {
+  const startDate = new Date(start_date);
+  const endDate = new Date(end_date);
+
+  const startFormat =
+    startDate.getFullYear() === endDate.getFullYear()
+      ? "MMM DD"
+      : "MMM DD, YYYY";
+
+  const start = moment(startDate).format(startFormat);
+  const end = moment(endDate).format("MMM DD, YYYY");
+
+  return `${start} - ${end}`;
+};
+
 export const copyToClipboard = async (text: string) => {
   await Clipboard.setStringAsync(text);
+};
+
+export const getDaysArray = (startDate: Date, endDate: Date) => {
+  const daysArray = [];
+  let currentDate = new Date(startDate);
+
+  while (currentDate.getDate() <= endDate.getDate()) {
+    daysArray.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return daysArray;
 };

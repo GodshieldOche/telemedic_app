@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Animated, Pressable } from "react-native";
+import { View, FlatList, Animated } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { slides } from "../utils/data";
 import OnboardingItem from "../components/Onboarding/OnboardingItem";
@@ -6,7 +6,7 @@ import Paginator from "../components/Onboarding/Paginator";
 import Button from "../components/Common/Button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/Common/Loader";
-import { useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import { globalStyles } from "../constants/styles";
 
 const Onboarding = () => {
@@ -45,7 +45,7 @@ const Onboarding = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      router.replace("/(user)/(tabs)/");
+      router.replace("/(auth)/");
     }
   };
 
@@ -108,9 +108,9 @@ const Onboarding = () => {
     return <Loader />;
   }
 
-  // if (alreadyViewd) {
-  //   return <Redirect href="/(auth)/" />;
-  // }
+  if (alreadyViewd) {
+    return <Redirect href="/(auth)/" />;
+  }
 
   return (
     <View className="flex-1 flex-col relative bg-primaryOne ">

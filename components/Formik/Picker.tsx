@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Platform, Text, View } from "react-native";
 import { globalStyles } from "../../constants/styles";
 import { Picker, PickerModes } from "react-native-ui-lib";
+import { Iconify } from "react-native-iconify";
 
 interface Props {
   label: string;
@@ -102,20 +103,23 @@ const Select: React.FC<Props> = ({
               (prev = items.filter((item) => item.label.includes(value)))
           )
         }
+        trailingAccessory={
+          <Iconify icon="typcn:arrow-sorted-down" size={20} color="#858C94" />
+        }
         placeholderTextColor="#858C94"
         searchStyle={{
           placeholderTextColor: "#858C94",
         }}
       />
 
-      {touched && errors && (
+      {errors && (
         <Text
           style={[
             globalStyles.regular_text,
             {
               color: "#DA1414",
               fontSize: 12,
-              display: touched ? "flex" : "none",
+              paddingLeft: 16,
             },
           ]}
         >

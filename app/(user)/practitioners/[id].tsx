@@ -37,8 +37,8 @@ const PractitionerDetails = () => {
   }
 
   return (
-    <View className="flex-1 relative bg-white">
-      <ScrollView className=" py-4  flex-1">
+    <View className="flex-1 relative py-4 bg-white">
+      <ScrollView className="flex-1">
         <ProviderProfile data={data} />
       </ScrollView>
       <View

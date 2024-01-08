@@ -18,7 +18,7 @@ const Paginator: React.FC<Props> = ({
 }) => {
   const { width } = useWindowDimensions();
   return (
-    <View className="flex flex-row gap-x-2 h-auto ">
+    <View className="flex flex-row space-x-2 h-auto ">
       {data.map((_, i) => {
         const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
 

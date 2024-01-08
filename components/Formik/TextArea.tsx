@@ -73,14 +73,14 @@ const TextArea: React.FC<Props> = ({
           placeholderTextColor="#858C94"
         />
       </View>
-      {touched && errors && (
+      {errors && (
         <Text
           style={[
             globalStyles.regular_text,
             {
               color: "#DA1414",
               fontSize: 12,
-              display: touched ? "flex" : "none",
+              paddingLeft: 16,
             },
           ]}
         >

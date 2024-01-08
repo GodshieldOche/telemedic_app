@@ -1,4 +1,5 @@
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
+import { Image } from "expo-image";
 import React from "react";
 import { globalStyles } from "../../../constants/styles";
 import { Iconify } from "react-native-iconify";
@@ -33,23 +34,23 @@ const ProviderProfile: React.FC<{ data: Practitioner }> = ({ data }) => {
             <Image
               source={
                 data.banner_image
-                  ? {
-                      uri: data.banner_image,
-                    }
+                  ? data.banner_image
                   : require("../../../assets/images/rainbow.png")
               }
-              className="w-full h-[130px] rounded-lg "
+              contentPosition="top"
+              placeholder={data.banner_blur_hash}
+              className="w-full h-[119px] rounded-lg "
               alt="Banner Image"
             />
             <View className=" absolute left-4 top-[55%] p-[2px] rounded-lg w-[92px] h-[85px] bg-white ">
               <Image
                 source={
                   data.profile_image
-                    ? {
-                        uri: data.profile_image,
-                      }
+                    ? data.profile_image
                     : require("../../../assets/images/profile_img.png")
                 }
+                contentPosition="top"
+                placeholder={data.blur_hash}
                 className="w-full h-full rounded "
                 alt="Profile Image"
               />
@@ -72,7 +73,7 @@ const ProviderProfile: React.FC<{ data: Practitioner }> = ({ data }) => {
           <View className="w-full justify-between flex-row">
             <AddressBox
               address={`${city}, ${truncate(state, {
-                length: 16,
+                length: 12,
               })}`}
               style={{
                 paddingHorizontal: 16,
@@ -86,6 +87,19 @@ const ProviderProfile: React.FC<{ data: Practitioner }> = ({ data }) => {
               color="#8863F2"
             />
             <IconBox
+              style={{
+                backgroundColor: "#D7EDF6",
+              }}
+              icon={
+                <Iconify
+                  icon="ic:baseline-design-services"
+                  size={18}
+                  color="#2F6F89"
+                />
+              }
+              text={truncate(data.practice, { length: 20 })}
+            />
+            <IconBox
               icon={
                 <Iconify
                   icon="line-md:star-alt-filled"
@@ -94,19 +108,6 @@ const ProviderProfile: React.FC<{ data: Practitioner }> = ({ data }) => {
                 />
               }
               text="4.5"
-            />
-            <IconBox
-              style={{
-                backgroundColor: "#ECFFFA",
-              }}
-              icon={
-                <Iconify
-                  icon="ic:baseline-add-location"
-                  size={18}
-                  color="#008C68"
-                />
-              }
-              text="4.5Km"
             />
           </View>
         </View>
